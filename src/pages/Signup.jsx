@@ -26,9 +26,17 @@ export default function Signup() {
   };
 
   const handleGoogleSignup = () => {
-    const res = signup('Google User', 'google.user@gmail.com', 'googlepassword', tab);
+    // Use whatever the user has typed in the form; Google sign-in normally
+    // provides the real account name & email, so we mirror that from the form here.
+    if (!name || !email) {
+      setError('Please enter your full name and email first, then continue with Google.');
+      return;
+    }
+    const res = signup(name, email, password || 'googlepassword', tab);
     if (res.success) {
       navigate('/dashboard');
+    } else {
+      setError(res.error);
     }
   };
 

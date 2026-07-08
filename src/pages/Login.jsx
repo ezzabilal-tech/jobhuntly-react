@@ -30,10 +30,17 @@ export default function Login() {
   };
 
   const handleGoogleLogin = () => {
-    // Mock login with Google
-    const res = login('google.user@gmail.com', 'googlepassword', tab);
+    // Uses whatever email/password the user has entered in the form,
+    // mirroring what a real Google sign-in would pass through.
+    if (!email || !password) {
+      setError('Please enter your email and password first, then continue with Google.');
+      return;
+    }
+    const res = login(email, password, tab);
     if (res.success) {
       navigate(from, { replace: true });
+    } else {
+      setError(res.error);
     }
   };
 

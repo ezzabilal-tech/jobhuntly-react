@@ -23,19 +23,6 @@ export function AuthProvider({ children }) {
       return { success: false, error: 'Please enter email and password.' };
     }
 
-    // Check if it's the Google mock login
-    if (email === 'google.user@gmail.com') {
-      const googleUser = {
-        name: 'Google User',
-        email,
-        role,
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
-      };
-      localStorage.setItem('jobhuntly_user', JSON.stringify(googleUser));
-      setUser(googleUser);
-      return { success: true };
-    }
-
     // Load registered users from database
     const usersRaw = localStorage.getItem('jobhuntly_users');
     const users = usersRaw ? JSON.parse(usersRaw) : [];
@@ -79,13 +66,13 @@ export function AuthProvider({ children }) {
       return { success: false, error: 'An account with this email already exists. Try logging in!' };
     }
 
-    // Create new user entry
+    // Create new user entry - avatar generated from the user's own name (initials)
     const newUser = {
       name,
       email,
       password,
       role,
-      avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
+      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=4640DE&color=fff&size=128&bold=true`,
     };
 
     // Save to users database
