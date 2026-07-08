@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   Calendar,
   LayoutDashboard,
   MessageSquare,
@@ -17,6 +16,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationPanel from '../components/NotificationPanel';
 import './Dashboard.css';
 
 export default function Dashboard() {
@@ -45,7 +45,7 @@ export default function Dashboard() {
 
   const settingItems = [
     { key: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
-    { key: 'help', label: 'Help Center', icon: HelpCircle, href: '#' },
+    { key: 'help', label: 'Help Center', icon: HelpCircle, href: '/help' },
   ];
 
   const recentApplications = [
@@ -163,9 +163,7 @@ export default function Dashboard() {
             <Link to="/" className="btn-back-home">
               Back to homepage
             </Link>
-            <button className="btn-notification">
-              <Bell size={20} />
-            </button>
+            <NotificationPanel />
           </div>
         </header>
 

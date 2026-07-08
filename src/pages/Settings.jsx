@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   LayoutDashboard,
   MessageSquare,
   FileText,
@@ -15,6 +14,7 @@ import {
   CheckCircle2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationPanel from '../components/NotificationPanel';
 import './Settings.css';
 
 const TABS = [
@@ -164,9 +164,7 @@ export default function Settings() {
             <Link to="/" className="btn-back-home">
               Back to homepage
             </Link>
-            <button className="btn-notification">
-              <Bell size={20} />
-            </button>
+            <NotificationPanel />
           </div>
         </header>
 

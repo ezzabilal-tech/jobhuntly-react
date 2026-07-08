@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   LayoutDashboard,
   MessageSquare,
   FileText,
@@ -17,6 +16,7 @@ import {
   MessageCircle,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationPanel from '../components/NotificationPanel';
 import './HelpCenter.css';
 
 const CATEGORIES = ['Getting Started', 'My Profile', 'Applying for a job', 'Job Search Tips', 'Job Alerts'];
@@ -140,9 +140,7 @@ export default function HelpCenter() {
             <Link to="/" className="btn-back-home">
               Back to homepage
             </Link>
-            <button className="btn-notification">
-              <Bell size={20} />
-            </button>
+            <NotificationPanel />
           </div>
         </header>
 

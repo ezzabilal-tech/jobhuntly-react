@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   Calendar,
   LayoutDashboard,
   MessageSquare,
@@ -27,6 +26,7 @@ import {
   SiStripe
 } from 'react-icons/si';
 import { useAuth } from '../context/AuthContext';
+import NotificationPanel from '../components/NotificationPanel';
 import './MyApplications.css';
 
 const renderCompanyLogo = (company, color) => {
@@ -336,9 +336,7 @@ export default function MyApplications() {
             <Link to="/" className="btn-back-home">
               Back to homepage
             </Link>
-            <button className="btn-notification">
-              <Bell size={20} />
-            </button>
+            <NotificationPanel />
           </div>
         </header>
 

@@ -1,7 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   Search,
   LayoutDashboard,
   MessageSquare,
@@ -19,6 +18,7 @@ import {
   ChevronDown,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationPanel from '../components/NotificationPanel';
 import './Messages.css';
 
 export default function Messages() {
@@ -335,9 +335,7 @@ export default function Messages() {
             <Link to="/" className="btn-back-home">
               Back to homepage
             </Link>
-            <button className="btn-notification">
-              <Bell size={20} />
-            </button>
+            <NotificationPanel />
           </div>
         </header>
 

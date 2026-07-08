@@ -1,0 +1,228 @@
+.notif-panel-wrapper {
+  position: relative;
+}
+
+.notif-panel-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+}
+
+.notif-panel {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 400px;
+  max-height: 520px;
+  overflow-y: auto;
+  background-color: #fff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 12px 32px rgba(16, 24, 40, 0.14);
+  z-index: 50;
+  box-sizing: border-box;
+}
+
+.notif-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f1f3f9;
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  border-radius: 12px 12px 0 0;
+}
+
+.notif-panel-header h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0;
+}
+
+.notif-mark-read {
+  background: none;
+  border: none;
+  color: #4640de;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.notif-mark-read:hover {
+  text-decoration: underline;
+}
+
+.notif-panel-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.notif-item {
+  display: flex;
+  gap: 12px;
+  padding: 18px 20px;
+  border-bottom: 1px solid #f1f3f9;
+  transition: background-color 0.2s ease;
+}
+
+.notif-item:last-child {
+  border-bottom: none;
+}
+
+.notif-item--read {
+  background-color: #fafbfe;
+  opacity: 0.7;
+}
+
+.notif-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.notif-item-body {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.notif-item-text {
+  font-size: 13px;
+  color: #515b6f;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.notif-item-text strong {
+  color: #25324b;
+  font-weight: 700;
+}
+
+.notif-tag {
+  align-self: flex-start;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: 50px;
+}
+
+.tag--new {
+  background-color: #fff6e9;
+  color: #ff9a3e;
+  border: 1px solid #ffe8cc;
+}
+
+.tag--shortlisted {
+  background-color: #e8fdf7;
+  color: #02bd9b;
+  border: 1px solid #baf1e2;
+}
+
+.notif-item-time {
+  font-size: 11px;
+  color: #a8b0bd;
+}
+
+/* Expanded interview card */
+.notif-expanded-card {
+  background-color: #f8f9fc;
+  border-left: 3px solid #4640de;
+  border-radius: 0 8px 8px 0;
+  padding: 14px 16px;
+  margin: 2px 0;
+}
+
+.notif-expanded-card h4 {
+  font-size: 14px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0 0 2px;
+}
+
+.notif-expanded-role {
+  font-size: 12px;
+  color: #7c8493;
+  margin: 0 0 12px;
+}
+
+.notif-expanded-meta {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 14px;
+}
+
+.notif-expanded-meta-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  color: #7c8493;
+}
+
+.notif-expanded-meta-item > div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-expanded-meta-label {
+  font-size: 10px;
+  color: #7c8493;
+}
+
+.notif-expanded-meta-value {
+  font-size: 12px;
+  font-weight: 600;
+  color: #25324b;
+}
+
+.notif-expanded-person {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.notif-expanded-person img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.notif-expanded-person > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  min-width: 0;
+}
+
+.notif-expanded-person-name {
+  font-size: 12px;
+  font-weight: 700;
+  color: #25324b;
+}
+
+.notif-expanded-person-email {
+  font-size: 11px;
+  color: #7c8493;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Responsiveness */
+@media (max-width: 480px) {
+  .notif-panel {
+    width: calc(100vw - 32px);
+    right: -8px;
+  }
+}

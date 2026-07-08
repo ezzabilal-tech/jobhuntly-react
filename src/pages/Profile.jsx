@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
-  Bell,
   LayoutDashboard,
   MessageSquare,
   FileText,
@@ -21,6 +20,7 @@ import {
   Flag,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import NotificationPanel from '../components/NotificationPanel';
 import './Profile.css';
 
 export default function Profile() {
@@ -236,9 +236,7 @@ export default function Profile() {
             <Link to="/" className="btn-back-home">
               Back to homepage
             </Link>
-            <button className="btn-notification">
-              <Bell size={20} />
-            </button>
+            <NotificationPanel />
           </div>
         </header>
 
