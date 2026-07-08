@@ -36,7 +36,7 @@ export default function Dashboard() {
 
   const menuItems = [
     { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
-    { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '#' },
+    { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
     { key: 'applications', label: 'My Applications', icon: FileText, href: '#' },
     { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },
     { key: 'browse-companies', label: 'Browse Companies', icon: Building, href: '/companies' },
