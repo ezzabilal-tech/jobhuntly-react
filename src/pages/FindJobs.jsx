@@ -1,3 +1,5 @@
+import { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Search, MapPin, Bookmark } from 'lucide-react';
 import {
   SiDropbox,
@@ -8,6 +10,7 @@ import {
   SiNomad,
   SiRevolut,
 } from 'react-icons/si';
+import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/global.css';
@@ -31,6 +34,20 @@ const filterGroups = [
 ];
 
 export default function FindJobs() {
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [appliedJobs, setAppliedJobs] = useState({});
+
+  const handleApply = (jobTitle, index) => {
+    if (!user) {
+      navigate('/login', { state: { from: location } });
+    } else {
+      setAppliedJobs((prev) => ({ ...prev, [index]: true }));
+      alert(`Congratulations! You have applied for the ${jobTitle} position.`);
+    }
+  };
+
   return (
     <>
       <Navbar active="jobs" />
@@ -91,7 +108,7 @@ export default function FindJobs() {
           </div>
 
           <ul className="jobs-list">
-            {jobs.map((job) => (
+            {jobs.map((job, i) => (
               <li key={job.title} className="job-row">
                 <div className="job-row__logo" style={{ background: job.color }}>
                   <job.icon size={22} color="#fff" />
@@ -112,7 +129,15 @@ export default function FindJobs() {
                   </div>
                 </div>
                 <div className="job-row__action">
-                  <button className="btn btn-primary job-row__apply">Apply</button>
+                  {appliedJobs[i] ? (
+                    <button className="btn job-row__apply" style={{ background: 'var(--color-accent-green)', color: '#fff', cursor: 'default' }} disabled>
+                      Applied
+                    </button>
+                  ) : (
+                    <button onClick={() => handleApply(job.title, i)} className="btn btn-primary job-row__apply">
+                      Apply
+                    </button>
+                  )}
                   <div className="job-row__progress">
                     <div className="job-row__progress-track">
                       <div

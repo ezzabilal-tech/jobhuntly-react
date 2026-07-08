@@ -1,4 +1,5 @@
-import { useParams, Link } from 'react-router-dom';
+import { useState } from 'react';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Share2,
   Stethoscope,
@@ -11,6 +12,7 @@ import {
   ArrowRight,
 } from 'lucide-react';
 import { SiStripe, SiDropbox, SiNetlify, SiMaze, SiUdacity, SiWebflow } from 'react-icons/si';
+import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/global.css';
@@ -57,6 +59,20 @@ const similarJobs = [
 
 export default function JobDetail() {
   const { id } = useParams();
+  const { user } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [applied, setApplied] = useState(false);
+
+  const handleApply = (e) => {
+    e.preventDefault();
+    if (!user) {
+      navigate('/login', { state: { from: location } });
+    } else {
+      setApplied(true);
+      alert('Congratulations! Your application has been submitted successfully.');
+    }
+  };
 
   return (
     <>
@@ -81,7 +97,15 @@ export default function JobDetail() {
           </div>
           <div className="job-header__actions">
             <Share2 size={20} className="job-header__share" />
-            <a href="/apply" className="btn btn-primary job-header__apply">Apply</a>
+            {applied ? (
+              <button className="btn job-header__apply" style={{ background: 'var(--color-accent-green)', color: '#fff', cursor: 'default' }} disabled>
+                Applied
+              </button>
+            ) : (
+              <button onClick={handleApply} className="btn btn-primary job-header__apply">
+                Apply
+              </button>
+            )}
           </div>
         </div>
       </section>
