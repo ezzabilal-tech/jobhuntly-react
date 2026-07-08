@@ -19,7 +19,7 @@ export default function Signup() {
 
     const res = signup(name, email, password, tab);
     if (res.success) {
-      navigate('/');
+      navigate('/dashboard');
     } else {
       setError(res.error);
     }
@@ -28,7 +28,7 @@ export default function Signup() {
   const handleGoogleSignup = () => {
     const res = signup('Google User', 'google.user@gmail.com', 'googlepassword', tab);
     if (res.success) {
-      navigate('/');
+      navigate('/dashboard');
     }
   };
 

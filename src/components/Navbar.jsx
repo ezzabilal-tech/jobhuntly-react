@@ -11,6 +11,10 @@ export default function Navbar({ active = 'home' }) {
     { key: 'companies', label: 'Browse Companies', href: '/companies' },
   ];
 
+  if (user) {
+    links.push({ key: 'dashboard', label: 'Dashboard', href: '/dashboard' });
+  }
+
   return (
     <header className="navbar">
       <div className="container navbar__inner">
@@ -34,10 +38,10 @@ export default function Navbar({ active = 'home' }) {
         <div className="navbar__actions">
           {user ? (
             <div className="navbar__user">
-              <div className="navbar__user-info">
+              <Link to="/dashboard" className="navbar__user-info" style={{ textDecoration: 'none' }}>
                 <img src={user.avatar} alt={user.name} className="navbar__avatar" />
                 <span className="navbar__username">{user.name}</span>
-              </div>
+              </Link>
               <button onClick={logout} className="btn-logout">
                 Logout
               </button>

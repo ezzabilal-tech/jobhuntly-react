@@ -14,8 +14,8 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
 
-  // Extract redirect URL from location state, default to homepage '/'
-  const from = location.state?.from?.pathname || '/';
+  // Extract redirect URL from location state, default to dashboard '/dashboard'
+  const from = location.state?.from?.pathname || '/dashboard';
 
   const handleSubmit = (e) => {
     e.preventDefault();
