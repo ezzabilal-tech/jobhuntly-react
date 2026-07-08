@@ -271,74 +271,108 @@
   color: #7c8493;
 }
 
-/* Notifications tab */
-.notif-list {
+/* Login Details: current value + verified badge */
+.current-value-row {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #25324b;
 }
 
-.notif-row {
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  color: #02bd9b;
+}
+
+.field-hint {
+  font-size: 12px;
+  color: #7c8493;
+  margin: 4px 0 0;
+}
+
+/* Inline action buttons (Update Email / Change Password) */
+.btn-inline-action {
+  align-self: flex-start;
+  background-color: #4640de;
+  color: #fff;
+  border: none;
+  font-weight: 600;
+  padding: 12px 24px;
+  border-radius: 8px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+  margin-top: 4px;
+}
+
+.btn-inline-action:hover {
+  background-color: #3730c9;
+}
+
+/* Close account row */
+.settings-close-account-row {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 16px 0;
-  border-bottom: 1px solid #f1f3f9;
+  justify-content: flex-end;
+}
+
+.btn-close-account {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: none;
+  color: #ff6550;
+  font-size: 13px;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.notif-row:last-child {
-  border-bottom: none;
+.btn-close-account:hover {
+  text-decoration: underline;
 }
 
-.notif-row div {
+/* Notifications tab - checkbox list */
+.notif-list {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 20px;
 }
 
-.notif-row strong {
+.notif-check-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.notif-check-row input[type='checkbox'] {
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid #d6ddeb;
+  accent-color: #4640de;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.notif-check-row div {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.notif-check-row strong {
   font-size: 14px;
   color: #25324b;
 }
 
-.notif-row span {
+.notif-check-row span {
   font-size: 12px;
   color: #7c8493;
-}
-
-.notif-row input[type='checkbox'] {
-  width: 40px;
-  height: 22px;
-  appearance: none;
-  background-color: #d6ddeb;
-  border-radius: 20px;
-  position: relative;
-  cursor: pointer;
-  flex-shrink: 0;
-  transition: background-color 0.2s ease;
-}
-
-.notif-row input[type='checkbox']::before {
-  content: '';
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  width: 18px;
-  height: 18px;
-  background-color: #fff;
-  border-radius: 50%;
-  transition: transform 0.2s ease;
-  box-shadow: 0 1px 2px rgba(16, 24, 40, 0.15);
-}
-
-.notif-row input[type='checkbox']:checked {
-  background-color: #4640de;
-}
-
-.notif-row input[type='checkbox']:checked::before {
-  transform: translateX(18px);
 }
 
 /* Footer / save */

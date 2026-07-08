@@ -12,6 +12,7 @@ import {
   HelpCircle,
   ImageUp,
   Calendar,
+  CheckCircle2,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import './Settings.css';
@@ -38,16 +39,30 @@ export default function Settings() {
 
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [newEmail, setNewEmail] = useState('');
 
   const [notifPrefs, setNotifPrefs] = useState({
-    applicationUpdates: true,
-    jobRecommendations: true,
-    messages: true,
-    marketingEmails: false,
+    applications: true,
+    jobs: false,
+    recommendations: false,
   });
 
   const [saved, setSaved] = useState(false);
+
+  const handleUpdateEmail = () => {
+    if (!newEmail) return;
+    setForm((prev) => ({ ...prev, email: newEmail }));
+    setNewEmail('');
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
+
+  const handleChangePassword = () => {
+    setCurrentPassword('');
+    setNewPassword('');
+    setSaved(true);
+    setTimeout(() => setSaved(false), 2500);
+  };
 
   const handleLogout = () => {
     logout();
@@ -301,45 +316,8 @@ export default function Settings() {
             <>
               <div className="settings-section">
                 <div className="settings-section-text">
-                  <h3>Login Details</h3>
-                  <p>Update your password and manage account security.</p>
-                </div>
-              </div>
-
-              <div className="settings-divider" />
-
-              <div className="settings-form-grid">
-                <div className="settings-form-label">Change Password</div>
-                <div className="settings-form-fields">
-                  <div className="form-field">
-                    <label>Current Password *</label>
-                    <input
-                      type="password"
-                      value={currentPassword}
-                      onChange={(e) => setCurrentPassword(e.target.value)}
-                      placeholder="Enter current password"
-                    />
-                  </div>
-                  <div className="form-row">
-                    <div className="form-field">
-                      <label>New Password *</label>
-                      <input
-                        type="password"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                        placeholder="Enter new password"
-                      />
-                    </div>
-                    <div className="form-field">
-                      <label>Confirm New Password *</label>
-                      <input
-                        type="password"
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        placeholder="Re-enter new password"
-                      />
-                    </div>
-                  </div>
+                  <h3>Basic Information</h3>
+                  <p>This is login information that you can update anytime.</p>
                 </div>
               </div>
 
@@ -347,15 +325,77 @@ export default function Settings() {
 
               <div className="settings-form-grid">
                 <div className="settings-form-label">
-                  <h4>Account Email</h4>
-                  <p>The email address used to sign in.</p>
+                  <h4>Update Email</h4>
+                  <p>Update your email address to make sure it is safe</p>
+                </div>
+                <div className="settings-form-fields">
+                  <div className="current-value-row">
+                    <span>{form.email}</span>
+                    <span className="verified-badge">
+                      <CheckCircle2 size={14} />
+                    </span>
+                  </div>
+                  <p className="field-hint">Your email address is verified.</p>
+
+                  <div className="form-field">
+                    <label>Update Email</label>
+                    <input
+                      type="email"
+                      value={newEmail}
+                      onChange={(e) => setNewEmail(e.target.value)}
+                      placeholder="Enter your new email"
+                    />
+                  </div>
+
+                  <button type="button" className="btn-inline-action" onClick={handleUpdateEmail}>
+                    Update Email
+                  </button>
+                </div>
+              </div>
+
+              <div className="settings-divider" />
+
+              <div className="settings-form-grid">
+                <div className="settings-form-label">
+                  <h4>New Password</h4>
+                  <p>Manage your password to make sure it is safe</p>
                 </div>
                 <div className="settings-form-fields">
                   <div className="form-field">
-                    <label>Email *</label>
-                    <input type="email" value={form.email} onChange={handleChange('email')} />
+                    <label>Old Password</label>
+                    <input
+                      type="password"
+                      value={currentPassword}
+                      onChange={(e) => setCurrentPassword(e.target.value)}
+                      placeholder="Enter your old password"
+                    />
+                    <span className="field-hint">Minimum 8 characters</span>
                   </div>
+
+                  <div className="form-field">
+                    <label>New Password</label>
+                    <input
+                      type="password"
+                      value={newPassword}
+                      onChange={(e) => setNewPassword(e.target.value)}
+                      placeholder="Enter your new password"
+                    />
+                    <span className="field-hint">Minimum 8 characters</span>
+                  </div>
+
+                  <button type="button" className="btn-inline-action" onClick={handleChangePassword}>
+                    Change Password
+                  </button>
                 </div>
+              </div>
+
+              <div className="settings-divider" />
+
+              <div className="settings-close-account-row">
+                <button type="button" className="btn-close-account">
+                  Close Account
+                  <HelpCircle size={13} />
+                </button>
               </div>
             </>
           )}
@@ -365,74 +405,75 @@ export default function Settings() {
             <>
               <div className="settings-section">
                 <div className="settings-section-text">
-                  <h3>Notifications</h3>
-                  <p>Choose what updates you want to hear about.</p>
+                  <h3>Basic Information</h3>
+                  <p>This is notifications preferences that you can update anytime.</p>
                 </div>
               </div>
 
               <div className="settings-divider" />
 
-              <div className="notif-list">
-                <label className="notif-row">
-                  <div>
-                    <strong>Application Updates</strong>
-                    <span>Get notified when an employer views or updates your application.</span>
+              <div className="settings-form-grid">
+                <div className="settings-form-label">
+                  <h4>Notifications</h4>
+                  <p>Customize your preferred notification settings</p>
+                </div>
+                <div className="settings-form-fields">
+                  <div className="notif-list">
+                    <label className="notif-check-row">
+                      <input
+                        type="checkbox"
+                        checked={notifPrefs.applications}
+                        onChange={() =>
+                          setNotifPrefs((p) => ({ ...p, applications: !p.applications }))
+                        }
+                      />
+                      <div>
+                        <strong>Applications</strong>
+                        <span>These are notifications for jobs that you have applied to</span>
+                      </div>
+                    </label>
+                    <label className="notif-check-row">
+                      <input
+                        type="checkbox"
+                        checked={notifPrefs.jobs}
+                        onChange={() => setNotifPrefs((p) => ({ ...p, jobs: !p.jobs }))}
+                      />
+                      <div>
+                        <strong>Jobs</strong>
+                        <span>These are notifications for job openings that suit your profile</span>
+                      </div>
+                    </label>
+                    <label className="notif-check-row">
+                      <input
+                        type="checkbox"
+                        checked={notifPrefs.recommendations}
+                        onChange={() =>
+                          setNotifPrefs((p) => ({ ...p, recommendations: !p.recommendations }))
+                        }
+                      />
+                      <div>
+                        <strong>Recommendations</strong>
+                        <span>These are notifications for personalized recommendations from our recruiters</span>
+                      </div>
+                    </label>
                   </div>
-                  <input
-                    type="checkbox"
-                    checked={notifPrefs.applicationUpdates}
-                    onChange={() =>
-                      setNotifPrefs((p) => ({ ...p, applicationUpdates: !p.applicationUpdates }))
-                    }
-                  />
-                </label>
-                <label className="notif-row">
-                  <div>
-                    <strong>Job Recommendations</strong>
-                    <span>Receive jobs picked for you based on your profile.</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={notifPrefs.jobRecommendations}
-                    onChange={() =>
-                      setNotifPrefs((p) => ({ ...p, jobRecommendations: !p.jobRecommendations }))
-                    }
-                  />
-                </label>
-                <label className="notif-row">
-                  <div>
-                    <strong>Messages</strong>
-                    <span>Get notified when you receive a new message.</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={notifPrefs.messages}
-                    onChange={() => setNotifPrefs((p) => ({ ...p, messages: !p.messages }))}
-                  />
-                </label>
-                <label className="notif-row">
-                  <div>
-                    <strong>Marketing Emails</strong>
-                    <span>Tips, product updates, and offers from JobHuntly.</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={notifPrefs.marketingEmails}
-                    onChange={() =>
-                      setNotifPrefs((p) => ({ ...p, marketingEmails: !p.marketingEmails }))
-                    }
-                  />
-                </label>
+
+                  <button type="button" className="btn-inline-action" onClick={handleSave}>
+                    Update Email
+                  </button>
+                </div>
               </div>
             </>
           )}
 
-          <div className="settings-footer">
-            {saved && <span className="settings-saved-msg">Saved!</span>}
-            <button type="submit" className="btn-save-profile">
-              {activeTab === 'profile' ? 'Save Profile' : activeTab === 'login' ? 'Save Changes' : 'Save Preferences'}
-            </button>
-          </div>
+          {activeTab === 'profile' && (
+            <div className="settings-footer">
+              {saved && <span className="settings-saved-msg">Saved!</span>}
+              <button type="submit" className="btn-save-profile">
+                Save Profile
+              </button>
+            </div>
+          )}
         </form>
       </main>
     </div>
