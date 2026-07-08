@@ -40,7 +40,7 @@ export default function Dashboard() {
     { key: 'applications', label: 'My Applications', icon: FileText, href: '/applications' },
     { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },
     { key: 'browse-companies', label: 'Browse Companies', icon: Building, href: '/companies' },
-    { key: 'profile', label: 'My Public Profile', icon: User, href: '#' },
+    { key: 'profile', label: 'My Public Profile', icon: User, href: '/profile' },
   ];
 
   const settingItems = [
