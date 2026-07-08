@@ -96,7 +96,7 @@ export default function Settings() {
 
   const settingItems = [
     { key: 'settings', label: 'Settings', icon: SettingsIcon, href: '/settings' },
-    { key: 'help', label: 'Help Center', icon: HelpCircle, href: '#' },
+    { key: 'help', label: 'Help Center', icon: HelpCircle, href: '/help' },
   ];
 
   return (

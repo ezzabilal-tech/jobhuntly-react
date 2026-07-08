@@ -13,6 +13,7 @@ import Messages from './pages/Messages';
 import MyApplications from './pages/MyApplications';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
+import HelpCenter from './pages/HelpCenter';
 
 export default function App() {
   return (
@@ -32,6 +33,7 @@ export default function App() {
           <Route path="/applications" element={<MyApplications />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
+          <Route path="/help" element={<HelpCenter />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

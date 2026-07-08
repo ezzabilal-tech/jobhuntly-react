@@ -52,7 +52,7 @@ export default function Profile() {
 
   const settingItems = [
     { key: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
-    { key: 'help', label: 'Help Center', icon: HelpCircle, href: '#' },
+    { key: 'help', label: 'Help Center', icon: HelpCircle, href: '/help' },
   ];
 
   const experiences = [
