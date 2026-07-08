@@ -53,12 +53,17 @@ const companies = {
       { icon: SiFramer, label: 'Framer', color: '#0055FF' },
     ],
     countries: ['United States', 'England', 'Japan', 'Australia', 'China'],
+    photos: [
+      'https://images.unsplash.com/photo-1497366216548-37526070297c?w=600&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=400&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&auto=format&fit=crop&q=80',
+    ],
     team: [
-      { name: 'C\u00e9lestin Gardinier', role: 'CEO & Co-Founder', color: '#F0997B' },
-      { name: 'Reynaud Colbert', role: 'Co-Founder', color: '#85B7EB' },
-      { name: 'Arienne Lyon', role: 'Managing Director', color: '#97C459' },
-      { name: 'Bernard Alexander', role: 'Managing Director', color: '#B4B2A9' },
-      { name: 'Christine Jhonson', role: 'Managing Director', color: '#2C2C2A' },
+      { name: 'C\u00e9lestin Gardinier', role: 'CEO & Co-Founder', avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80' },
+      { name: 'Reynaud Colbert', role: 'Co-Founder', avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80' },
+      { name: 'Arienne Lyon', role: 'Managing Director', avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80' },
+      { name: 'Bernard Alexander', role: 'Managing Director', avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80' },
+      { name: 'Christine Jhonson', role: 'Managing Director', avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80' },
     ],
     teamTotal: 47,
   },
@@ -194,10 +199,18 @@ export default function CompanyProfile() {
 
       <section className="container company-layout company-layout--photos">
         <div className="company-photos">
-          <div className="company-photo company-photo--main" />
-          <div className="company-photo" />
-          <div className="company-photo" />
-          <div className="company-photo" />
+          {company.photos && company.photos.map((photo, index) => (
+            <div
+              key={index}
+              className={`company-photo ${index === 0 ? 'company-photo--main' : ''}`}
+              style={{
+                backgroundImage: `url(${photo})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+                backgroundRepeat: 'no-repeat',
+              }}
+            />
+          ))}
         </div>
 
         <aside className="company-sidebar">
@@ -223,7 +236,18 @@ export default function CompanyProfile() {
         <div className="team-grid">
           {company.team.map((member) => (
             <div key={member.name} className="team-card">
-              <div className="team-card__avatar" style={{ background: member.color }} />
+              {member.avatar ? (
+                <div
+                  className="team-card__avatar"
+                  style={{
+                    backgroundImage: `url(${member.avatar})`,
+                    backgroundSize: 'cover',
+                    backgroundPosition: 'center',
+                  }}
+                />
+              ) : (
+                <div className="team-card__avatar" style={{ background: member.color }} />
+              )}
               <h4>{member.name}</h4>
               <p>{member.role}</p>
               <div className="team-card__social">
