@@ -44,7 +44,7 @@ export default function Dashboard() {
   ];
 
   const settingItems = [
-    { key: 'settings', label: 'Settings', icon: Settings, href: '#' },
+    { key: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
     { key: 'help', label: 'Help Center', icon: HelpCircle, href: '#' },
   ];
 
