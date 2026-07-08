@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
 import {
   Share2,
@@ -10,11 +10,20 @@ import {
   Bus,
   HeartHandshake,
   ArrowRight,
+  X,
+  Paperclip,
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Link2,
+  Smile,
 } from 'lucide-react';
 import { SiStripe, SiDropbox, SiNetlify, SiMaze, SiUdacity, SiWebflow } from 'react-icons/si';
 import { useAuth } from '../context/AuthContext';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { companiesList } from '../data/companies';
 import '../styles/global.css';
 import './JobDetail.css';
 
@@ -64,15 +73,62 @@ export default function JobDetail() {
   const location = useLocation();
   const [applied, setApplied] = useState(false);
 
+  const [showModal, setShowModal] = useState(false);
+  const [fullname, setFullname] = useState(user ? user.name : '');
+  const [email, setEmail] = useState(user ? user.email : '');
+  const [phone, setPhone] = useState('');
+  const [jobTitle, setJobTitle] = useState('');
+  const [linkedin, setLinkedin] = useState('');
+  const [portfolio, setPortfolio] = useState('');
+  const [coverLetter, setCoverLetter] = useState('');
+  const [resume, setResume] = useState(null);
+
+  useEffect(() => {
+    if (user) {
+      setFullname(user.name || '');
+      setEmail(user.email || '');
+    }
+  }, [user]);
+
+  // Parse company from route parameter (e.g. "nomad-social-media-assistant")
+  const companySlug = id ? id.split('-')[0] : '';
+  const matchedCompany = companiesList.find(
+    (c) => c.name.toLowerCase() === companySlug.toLowerCase()
+  ) || {
+    name: 'Stripe',
+    color: '#635BFF',
+    icon: SiStripe,
+    location: 'Paris, France',
+    description: 'Stripe is a technology company that builds economic infrastructure for the internet.',
+  };
+
   const handleApply = (e) => {
     e.preventDefault();
     if (!user) {
       navigate('/login', { state: { from: location } });
     } else {
-      setApplied(true);
-      alert('Congratulations! Your application has been submitted successfully.');
+      setShowModal(true);
     }
   };
+
+  const handleModalSubmit = (e) => {
+    e.preventDefault();
+    if (!fullname || !email || !phone || !jobTitle) {
+      alert('Please fill out all required fields.');
+      return;
+    }
+    setShowModal(false);
+    setApplied(true);
+    alert('Congratulations! Your application has been submitted successfully.');
+  };
+
+  const handleFileChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      setResume(e.target.files[0]);
+    }
+  };
+
+  const CompanyLogo = matchedCompany.icon || SiStripe;
 
   return (
     <>
@@ -80,19 +136,19 @@ export default function JobDetail() {
 
       <div className="job-breadcrumb">
         <div className="container">
-          <Link to="/">Home</Link> / <Link to="/companies">Companies</Link> / <Link to="/companies/stripe">Stripe</Link> / Social Media Assistant
+          <Link to="/">Home</Link> / <Link to="/companies">Companies</Link> / <Link to={`/companies/${matchedCompany.name.toLowerCase()}`}>{matchedCompany.name}</Link> / Social Media Assistant
         </div>
       </div>
 
       <section className="job-header">
         <div className="container job-header__inner">
-          <div className="job-header__logo">
-            <SiStripe size={26} color="#fff" />
+          <div className="job-header__logo" style={{ background: matchedCompany.color }}>
+            <CompanyLogo size={26} color="#fff" />
           </div>
           <div className="job-header__info">
             <h1>Social Media Assistant</h1>
             <p className="job-header__meta">
-              Stripe &middot; Paris, France &middot; Full-Time
+              {matchedCompany.name} &middot; {matchedCompany.location} &middot; Full-Time
             </p>
           </div>
           <div className="job-header__actions">
@@ -275,6 +331,156 @@ export default function JobDetail() {
           </div>
         </div>
       </section>
+
+      {showModal && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <button className="modal-close" onClick={() => setShowModal(false)}>
+              <X size={20} />
+            </button>
+            <div className="modal-header">
+              <div className="modal-header__logo" style={{ background: matchedCompany.color }}>
+                <CompanyLogo size={22} color="#fff" />
+              </div>
+              <div className="modal-header__info">
+                <h3>Social Media Assistant</h3>
+                <p className="modal-header__meta">
+                  {matchedCompany.name} &middot; {matchedCompany.location} &middot; Full-Time
+                </p>
+              </div>
+            </div>
+            <div className="modal-body">
+              <h4>Submit your application</h4>
+              <p className="modal-body__subtitle">
+                The following is required and will only be shared with {matchedCompany.name}
+              </p>
+              <form onSubmit={handleModalSubmit}>
+                <div className="modal-form-group">
+                  <label htmlFor="fullname">Full name</label>
+                  <input
+                    type="text"
+                    id="fullname"
+                    placeholder="Enter your fullname"
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="modal-form-group">
+                  <label htmlFor="email">Email address</label>
+                  <input
+                    type="email"
+                    id="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="modal-form-group">
+                  <label htmlFor="phone">Phone number</label>
+                  <input
+                    type="tel"
+                    id="phone"
+                    placeholder="Enter your phone number"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                  />
+                </div>
+                <div className="modal-form-group">
+                  <label htmlFor="jobTitle">Current or previous job title</label>
+                  <input
+                    type="text"
+                    id="jobTitle"
+                    placeholder="What's your current or previous job title?"
+                    value={jobTitle}
+                    onChange={(e) => setJobTitle(e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="modal-section-title">Links</div>
+
+                <div className="modal-form-group">
+                  <label htmlFor="linkedin">LinkedIn URL</label>
+                  <input
+                    type="url"
+                    id="linkedin"
+                    placeholder="Link to your LinkedIn URL"
+                    value={linkedin}
+                    onChange={(e) => setLinkedin(e.target.value)}
+                  />
+                </div>
+                <div className="modal-form-group">
+                  <label htmlFor="portfolio">Portfolio URL</label>
+                  <input
+                    type="url"
+                    id="portfolio"
+                    placeholder="Link to your portfolio URL"
+                    value={portfolio}
+                    onChange={(e) => setPortfolio(e.target.value)}
+                  />
+                </div>
+
+                <div className="modal-form-group">
+                  <label htmlFor="coverLetter">Additional information</label>
+                  <div className="textarea-wrapper">
+                    <div className="textarea-toolbar">
+                      <button type="button"><Smile size={18} /></button>
+                      <button type="button"><Bold size={18} /></button>
+                      <button type="button"><Italic size={18} /></button>
+                      <button type="button"><List size={18} /></button>
+                      <button type="button"><ListOrdered size={18} /></button>
+                      <button type="button"><Link2 size={18} /></button>
+                    </div>
+                    <textarea
+                      id="coverLetter"
+                      className="with-toolbar"
+                      placeholder="Add a cover letter or anything else you want to share"
+                      rows={5}
+                      maxLength={500}
+                      value={coverLetter}
+                      onChange={(e) => setCoverLetter(e.target.value.slice(0, 500))}
+                    />
+                    <div className="char-count">
+                      <span>Maximum 500 characters</span>
+                      <span>{coverLetter.length} / 500</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="resume-upload">
+                  <span className="resume-upload__label">Attach your resume</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                    {resume && <span className="resume-filename">{resume.name}</span>}
+                    <label htmlFor="resume-file" className="resume-upload__btn">
+                      <Paperclip size={18} />
+                      {resume ? 'Change Resume' : 'Attach Resume/CV'}
+                    </label>
+                  </div>
+                  <input
+                    type="file"
+                    id="resume-file"
+                    style={{ display: 'none' }}
+                    onChange={handleFileChange}
+                  />
+                </div>
+
+                <button type="submit" className="btn btn-primary modal-submit-btn">
+                  Submit Application
+                </button>
+
+                <p className="modal-disclaimer">
+                  By sending the request you can confirm that you accept our{' '}
+                  <a href="#" onClick={(e) => e.preventDefault()}>Terms of Service</a> and{' '}
+                  <a href="#" onClick={(e) => e.preventDefault()}>Privacy Policy</a>
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
 
       <Footer />
     </>
