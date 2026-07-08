@@ -1,0 +1,362 @@
+.hero {
+  position: relative;
+  background: var(--color-bg-soft);
+  overflow: hidden;
+  padding: 80px 0 60px;
+}
+
+.hero__inner {
+  max-width: 640px;
+  position: relative;
+  z-index: 2;
+}
+
+.hero h1 {
+  font-size: 56px;
+  line-height: 1.15;
+  font-weight: 800;
+  margin: 0 0 24px;
+}
+
+.hero__highlight {
+  color: var(--color-primary);
+  position: relative;
+  display: inline-block;
+}
+
+.hero__highlight-underline {
+  position: absolute;
+  left: 0;
+  bottom: -14px;
+  width: 100%;
+  height: 16px;
+}
+
+.hero__subtitle {
+  font-size: 18px;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 32px;
+}
+
+.hero__search {
+  display: flex;
+  align-items: center;
+  background: #fff;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-card);
+  padding: 8px 8px 8px 20px;
+  gap: 12px;
+}
+
+.hero__search-field {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+}
+
+.hero__search-field input {
+  border: none;
+  outline: none;
+  font-size: 15px;
+  width: 100%;
+  font-family: inherit;
+}
+
+.hero__search-icon { color: var(--color-text-muted); flex-shrink: 0; }
+.hero__search-divider { width: 1px; height: 32px; background: var(--color-border); }
+.hero__search-btn { white-space: nowrap; }
+
+.hero__popular {
+  margin-top: 20px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.hero__popular a {
+  color: var(--color-text);
+  text-decoration: underline;
+}
+
+.hero__art {
+  position: absolute;
+  right: -80px;
+  top: 0;
+  width: 560px;
+  height: 100%;
+  background: radial-gradient(circle at 30% 30%, var(--color-primary) 0%, transparent 60%),
+              radial-gradient(circle at 70% 70%, var(--color-secondary) 0%, transparent 55%);
+  opacity: 0.15;
+}
+
+.companies-strip {
+  border-bottom: 1px solid var(--color-border);
+  padding: 32px 0;
+}
+
+.companies-strip__label {
+  margin: 0 0 20px;
+  font-size: 14px;
+  color: var(--color-text-muted);
+}
+
+.companies-strip__inner {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.companies-strip__name {
+  font-size: 20px;
+  font-weight: 700;
+  color: #B9C0CB;
+}
+
+.section { padding: 72px 0; }
+
+.section__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 40px;
+}
+
+.section__header h2 {
+  font-size: 32px;
+  margin: 0 0 8px;
+}
+
+.section__header p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.section__link {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+.text-primary { color: var(--color-primary); }
+
+.category-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.category-card {
+  position: relative;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 32px 24px;
+  transition: box-shadow .15s ease;
+}
+
+.category-card--active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+.category-card--active p { color: #D9D8FF; }
+.category-card--active .category-card__arrow { color: #fff; }
+
+.category-card:hover { box-shadow: var(--shadow-card); }
+
+.category-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--color-bg-soft);
+  color: var(--color-primary);
+}
+
+.category-card--active .category-card__icon {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+.category-card h3 { margin: 16px 0 4px; font-size: 18px; }
+.category-card p { margin: 0; color: var(--color-text-muted); font-size: 14px; }
+.category-card__arrow { position: absolute; top: 32px; right: 24px; }
+
+.job-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+}
+
+.job-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+}
+
+.job-card__top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.job-card__logo {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  background: var(--color-bg-soft);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.job-card h3 { margin: 0 0 6px; font-size: 18px; }
+.job-card__meta { color: var(--color-text-muted); font-size: 14px; margin: 0 0 16px; }
+.job-card__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.latest-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.latest-row {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.latest-card {
+  display: flex;
+  gap: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  padding: 20px;
+}
+
+.latest-card__logo {
+  flex-shrink: 0;
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.latest-card__body h3 { margin: 0 0 6px; font-size: 17px; }
+.latest-card__meta { color: var(--color-text-muted); font-size: 14px; margin: 0 0 12px; }
+.latest-card__tags { display: flex; gap: 8px; flex-wrap: wrap; }
+
+.cta {
+  background: var(--color-primary);
+  color: #fff;
+  padding: 72px 0;
+  overflow: hidden;
+}
+
+.cta__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  text-align: left;
+}
+
+.cta__text { max-width: 420px; }
+.cta h2 { font-size: 32px; margin: 20px 0 8px; }
+.cta p { margin: 0 0 28px; color: #D9D8FF; }
+.btn-white { background: #fff; color: var(--color-primary); }
+
+.cta__preview {
+  flex: 1;
+  display: flex;
+  justify-content: flex-end;
+  min-width: 320px;
+}
+
+.cta__preview-card {
+  width: 100%;
+  max-width: 420px;
+  background: #fff;
+  color: var(--color-text);
+  border-radius: var(--radius-md);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.25);
+  padding: 20px;
+}
+
+.cta__preview-topbar { display: flex; gap: 6px; margin-bottom: 16px; }
+.cta__preview-dot {
+  width: 8px; height: 8px; border-radius: 50%; background: var(--color-border);
+}
+
+.cta__preview-greeting { font-weight: 700; margin: 0 0 16px; }
+
+.cta__preview-row { display: flex; gap: 12px; margin-bottom: 20px; }
+
+.cta__preview-stat {
+  flex: 1;
+  background: var(--color-bg-soft);
+  border-radius: var(--radius-sm);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.cta__preview-stat--dark { background: var(--color-primary); color: #fff; }
+
+.cta__preview-stat-label { font-size: 12px; color: var(--color-text-muted); }
+.cta__preview-stat--dark .cta__preview-stat-label { color: #D9D8FF; }
+.cta__preview-stat-value { font-size: 22px; font-weight: 800; }
+.cta__preview-stat-sub { font-size: 12px; color: #D9D8FF; }
+
+.cta__preview-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  height: 32px;
+  margin-top: 6px;
+}
+.cta__preview-bars span {
+  flex: 1;
+  background: var(--color-primary);
+  border-radius: 2px;
+}
+
+.cta__preview-subheading { font-size: 13px; font-weight: 700; margin: 0 0 10px; }
+
+.cta__preview-list { display: flex; flex-direction: column; gap: 8px; }
+.cta__preview-list-item {
+  height: 14px;
+  border-radius: 4px;
+  background: var(--color-bg-soft);
+}
+.cta__preview-list-item:nth-child(2) { width: 85%; }
+.cta__preview-list-item:nth-child(3) { width: 65%; }
+
+@media (max-width: 1100px) {
+  .category-grid, .job-grid { grid-template-columns: repeat(2, 1fr); }
+  .cta__inner { flex-direction: column; align-items: flex-start; }
+  .cta__preview { justify-content: flex-start; }
+}
+@media (max-width: 900px) {
+  .latest-row { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .hero h1 { font-size: 36px; }
+  .hero__search { flex-direction: column; align-items: stretch; }
+  .hero__search-divider { display: none; }
+  .category-grid, .job-grid { grid-template-columns: 1fr; }
+  .latest-card { flex-direction: column; }
+}

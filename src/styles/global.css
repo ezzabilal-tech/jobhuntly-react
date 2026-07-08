@@ -1,0 +1,68 @@
+/* JobHuntly – global tokens */
+@import url('https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --color-primary: #4640DE;
+  --color-primary-dark: #3832A0;
+  --color-secondary: #26A4FF;
+  --color-accent-orange: #FF6550;
+  --color-accent-yellow: #FFB836;
+  --color-accent-green: #56CDAD;
+  --color-bg: #FFFFFF;
+  --color-bg-soft: #F8F8FD;
+  --color-text: #25324B;
+  --color-text-muted: #7C8493;
+  --color-border: #D6DDEB;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --shadow-card: 0 12px 30px rgba(178, 178, 178, 0.15);
+  --max-width: 1216px;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: 'Epilogue', sans-serif;
+  color: var(--color-text);
+  background: var(--color-bg);
+}
+
+a { text-decoration: none; color: inherit; }
+button { font-family: inherit; cursor: pointer; }
+ul { list-style: none; margin: 0; padding: 0; }
+
+.container {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 24px;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 15px;
+  border: none;
+  transition: opacity .15s ease;
+}
+.btn:hover { opacity: 0.9; }
+.btn-primary { background: var(--color-primary); color: #fff; }
+.btn-outline { background: transparent; color: var(--color-primary); border: 1px solid var(--color-primary); }
+.btn-text { background: transparent; color: var(--color-text); }
+
+.pill {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 100px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.pill-blue { background: #E7F0FA; color: #26A4FF; }
+.pill-green { background: #E7F6EC; color: #56CDAD; }
+.pill-orange { background: #FCEEE8; color: #FF6550; }

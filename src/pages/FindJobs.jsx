@@ -1,0 +1,137 @@
+import { Search, MapPin, Bookmark } from 'lucide-react';
+import {
+  SiDropbox,
+  SiTerraform,
+  SiPacker,
+  SiMaze,
+  SiUdacity,
+  SiNomad,
+  SiRevolut,
+} from 'react-icons/si';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import '../styles/global.css';
+import './FindJobs.css';
+
+const jobs = [
+  { title: 'Social Media Assistant', company: 'Nomad', icon: SiNomad, color: '#56CDAD', location: 'Paris, France', type: 'Full-Time', posted: '1 day ago', tags: ['Marketing', 'Design'], applied: 5, capacity: 10 },
+  { title: 'Brand Designer', company: 'Dropbox', icon: SiDropbox, color: '#4640DE', location: 'San Francisco, USA', type: 'Full-Time', posted: '1 day ago', tags: ['Design', 'Business'], applied: 2, capacity: 10 },
+  { title: 'Interactive Developer', company: 'Terraform', icon: SiTerraform, color: '#4640DE', location: 'Hamburg, Germany', type: 'Full-Time', posted: '2 days ago', tags: ['Marketing', 'Design'], applied: 8, capacity: 12 },
+  { title: 'Email Marketing', company: 'Revolut', icon: SiRevolut, color: '#25324B', location: 'Madrid, Spain', type: 'Full-Time', posted: '2 days ago', tags: ['Marketing', 'Design'], applied: 0, capacity: 10 },
+  { title: 'HR Manager', company: 'Packer', icon: SiPacker, color: '#FF6550', location: 'Lucerne, Switzerland', type: 'Full-Time', posted: '3 days ago', tags: ['Human Resource'], applied: 3, capacity: 10 },
+  { title: 'Product Designer', company: 'Maze', icon: SiMaze, color: '#4640DE', location: 'San Francisco, USA', type: 'Full-Time', posted: '3 days ago', tags: ['Design'], applied: 6, capacity: 10 },
+  { title: 'Copywriter', company: 'Udacity', icon: SiUdacity, color: '#26A4FF', location: 'Bali, Indonesia', type: 'Part-Time', posted: '5 days ago', tags: ['Marketing', 'Design'], applied: 4, capacity: 10 },
+];
+
+const filterGroups = [
+  { title: 'Type of Employment', options: ['Full-time', 'Part-Time', 'Remote', 'Internship', 'Contract'] },
+  { title: 'Categories', options: ['Design', 'Sales', 'Marketing', 'Finance', 'Technology'] },
+  { title: 'Job Level', options: ['Entry Level', 'Mid Level', 'Senior Level', 'Director', 'VP or Above'] },
+  { title: 'Salary Range', options: ['$700 - $1000', '$100 - $1500', '$1500 - $2000', '$3000 or above'] },
+];
+
+export default function FindJobs() {
+  return (
+    <>
+      <Navbar active="jobs" />
+
+      <section className="jobs-search">
+        <div className="container jobs-search__inner">
+          <h1 className="jobs-search__heading">
+            Find your <span className="text-primary jobs-search__highlight">dream job</span>
+          </h1>
+          <p className="jobs-search__subtitle">
+            Find your next career at companies like HubSpot, Nike, and Dropbox
+          </p>
+
+          <div className="hero__search">
+            <div className="hero__search-field">
+              <Search size={20} className="hero__search-icon" />
+              <input type="text" placeholder="Job title or keyword" />
+            </div>
+            <div className="hero__search-divider" />
+            <div className="hero__search-field">
+              <MapPin size={20} className="hero__search-icon" />
+              <input type="text" placeholder="Florence, Italy" />
+            </div>
+            <button className="btn btn-primary hero__search-btn">Search</button>
+          </div>
+
+          <div className="hero__popular">
+            <span>Popular :</span>
+            <a href="#">UI Designer</a>
+            <a href="#">UX Researcher</a>
+            <a href="#">Android</a>
+            <a href="#">Admin</a>
+          </div>
+        </div>
+      </section>
+
+      <section className="container jobs-layout">
+        <aside className="jobs-filters">
+          {filterGroups.map((group) => (
+            <div key={group.title} className="filter-group">
+              <h4>{group.title}</h4>
+              {group.options.map((opt) => (
+                <label key={opt} className="filter-option">
+                  <input type="checkbox" /> {opt}
+                </label>
+              ))}
+            </div>
+          ))}
+        </aside>
+
+        <div className="jobs-results">
+          <div className="jobs-results__header">
+            <span>{jobs.length} Jobs Results</span>
+            <select>
+              <option>Most relevant</option>
+              <option>Most recent</option>
+            </select>
+          </div>
+
+          <ul className="jobs-list">
+            {jobs.map((job) => (
+              <li key={job.title} className="job-row">
+                <div className="job-row__logo" style={{ background: job.color }}>
+                  <job.icon size={22} color="#fff" />
+                </div>
+                <div className="job-row__body">
+                  <div className="job-row__top">
+                    <h3>{job.title}</h3>
+                    <Bookmark size={18} className="job-row__save" />
+                  </div>
+                  <p className="job-row__meta">
+                    {job.company} &middot; {job.location}
+                  </p>
+                  <div className="job-row__tags">
+                    <span className="pill pill-green">{job.type}</span>
+                    {job.tags.map((t) => (
+                      <span key={t} className="pill pill-blue">{t}</span>
+                    ))}
+                  </div>
+                </div>
+                <div className="job-row__action">
+                  <button className="btn btn-primary job-row__apply">Apply</button>
+                  <div className="job-row__progress">
+                    <div className="job-row__progress-track">
+                      <div
+                        className="job-row__progress-fill"
+                        style={{ width: `${(job.applied / job.capacity) * 100}%` }}
+                      />
+                    </div>
+                    <span className="job-row__progress-label">
+                      {job.applied} applied of {job.capacity} capacity
+                    </span>
+                  </div>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <Footer />
+    </>
+  );
+}
