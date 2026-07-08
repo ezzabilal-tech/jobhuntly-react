@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import {
   Share2,
   Stethoscope,
@@ -64,7 +64,7 @@ export default function JobDetail() {
 
       <div className="job-breadcrumb">
         <div className="container">
-          <a href="/">Home</a> / <a href="/companies">Companies</a> / <a href="#">Stripe</a> / Social Media Assistant
+          <Link to="/">Home</Link> / <Link to="/companies">Companies</Link> / <Link to="/companies/stripe">Stripe</Link> / Social Media Assistant
         </div>
       </div>
 
@@ -192,9 +192,9 @@ export default function JobDetail() {
             </div>
             <div>
               <h3>Stripe</h3>
-              <a href="#" className="about-company__link">
+              <Link to="/companies/stripe" className="about-company__link">
                 Read more about Stripe <ArrowRight size={14} />
-              </a>
+              </Link>
             </div>
           </div>
           <p>
