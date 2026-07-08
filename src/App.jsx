@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Messages from './pages/Messages';
+import MyApplications from './pages/MyApplications';
 
 export default function App() {
   return (
@@ -26,6 +27,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/messages" element={<Messages />} />
+          <Route path="/applications" element={<MyApplications />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>

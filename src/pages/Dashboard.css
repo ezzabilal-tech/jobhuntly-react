@@ -66,6 +66,8 @@
   text-decoration: none;
   font-size: 14px;
   transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .sidebar-item-left {
@@ -83,6 +85,18 @@
   background-color: #e9e8fc;
   color: #4640de;
   font-weight: 600;
+}
+
+.sidebar-item--active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background-color: #4640de;
+  border-top-left-radius: 8px;
+  border-bottom-left-radius: 8px;
 }
 
 .sidebar-badge {

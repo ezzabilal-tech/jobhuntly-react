@@ -246,7 +246,7 @@ export default function Messages() {
   const menuItems = [
     { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
     { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
-    { key: 'applications', label: 'My Applications', icon: FileText, href: '#' },
+    { key: 'applications', label: 'My Applications', icon: FileText, href: '/applications' },
     { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },
     { key: 'browse-companies', label: 'Browse Companies', icon: Building, href: '/companies' },
     { key: 'profile', label: 'My Public Profile', icon: User, href: '#' },
@@ -296,9 +296,9 @@ export default function Messages() {
           {settingItems.map((item) => {
             const Icon = item.icon;
             return (
-              <a
+              <Link
                 key={item.key}
-                href={item.href}
+                to={item.href}
                 onClick={(e) => {
                   if (item.href === '#') {
                     e.preventDefault();
@@ -311,7 +311,7 @@ export default function Messages() {
                   <Icon size={18} />
                   <span>{item.label}</span>
                 </div>
-              </a>
+              </Link>
             );
           })}
         </nav>
