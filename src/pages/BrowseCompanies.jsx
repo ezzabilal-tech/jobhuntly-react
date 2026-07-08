@@ -1,80 +1,25 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Search, MapPin, TrendingUp } from 'lucide-react';
-import { SiPacker, SiSquare, SiWebflow, SiNomad, SiDiscord, SiMaze, SiUdacity } from 'react-icons/si';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { companiesList } from '../data/companies';
 import '../styles/global.css';
 import './BrowseCompanies.css';
 
-const recommendedCompanies = [
-  {
-    name: 'Nomad',
-    initial: 'N',
-    color: '#56CDAD',
-    icon: SiNomad,
-    jobs: 3,
-    description: 'Nomad is located in Paris, France. Nomad has generates $728,000 in sales (USD).',
-    tags: ['Business Service'],
-  },
-  {
-    name: 'Discord',
-    initial: 'D',
-    color: '#4640DE',
-    icon: SiDiscord,
-    jobs: 3,
-    description: "We'd love to work with someone like you. We care about creating a delightful experience.",
-    tags: ['Business Service'],
-  },
-  {
-    name: 'Maze',
-    initial: 'M',
-    color: '#26A4FF',
-    icon: SiMaze,
-    jobs: 3,
-    description: "We're a passionate bunch working from all over the world to build the future of rapid testing together.",
-    tags: ['Business Service'],
-  },
-  {
-    name: 'Udacity',
-    initial: 'U',
-    color: '#02BD9B',
-    icon: SiUdacity,
-    jobs: 3,
-    description: 'Udacity is a new type of online university that teaches the actual programming skills.',
-    tags: ['Business Service'],
-  },
-  {
-    name: 'Webflow',
-    initial: 'W',
-    color: '#4640DE',
-    icon: SiWebflow,
-    jobs: 3,
-    description: 'Webflow is the first design and hosting platform built from the ground up for the mobile age.',
-    tags: ['Business Service', 'Technology'],
-  },
-  {
-    name: 'Foundation',
-    initial: 'F',
-    color: '#111827',
-    jobs: 3,
-    description: 'Foundation helps creators mint and auction their digital artworks as NFTs on the Ethereum blockchain.',
-    tags: ['Business Service', 'Crypto'],
-  },
-];
+const recommendedNames = ['Nomad', 'Discord', 'Maze', 'Udacity', 'Webflow', 'Foundation'];
+const moreNames = ['Pentagram', 'Wolff Olins', 'Clay', 'MediaMonks', 'Packer', 'Square', 'Divy'];
 
-const moreCompanies = [
-  { name: 'Pentagram', initial: 'P', color: '#E23744' },
-  { name: 'Wolff Olins', initial: 'W', color: '#111827' },
-  { name: 'Clay', initial: 'C', color: '#111827' },
-  { name: 'MediaMonks', initial: 'M', color: '#111827' },
-  { name: 'Packer', initial: 'P', color: '#FF6550', icon: SiPacker },
-  { name: 'Square', initial: 'S', color: '#111827', icon: SiSquare },
-  { name: 'Divy', initial: 'D', color: '#111827' },
-  { name: 'WebFlow', initial: 'W', color: '#4640DE', icon: SiWebflow },
-];
+// Map the items to maintain their specific order as defined in the names arrays
+const recommendedCompanies = recommendedNames
+  .map(name => companiesList.find(c => c.name.toLowerCase() === name.toLowerCase()))
+  .filter(Boolean);
 
-const popularSearches = ['Twitter', 'Microsoft', 'Apple', 'Facebook'];
+const moreCompanies = moreNames
+  .map(name => companiesList.find(c => c.name.toLowerCase() === name.toLowerCase()))
+  .filter(Boolean);
+
+const popularSearches = ['Twitter', 'Microsoft', 'Apple', 'Facebook', 'Fintech'];
 
 const tagClass = (tag) => {
   if (tag === 'Technology') return 'pill pill-blue';

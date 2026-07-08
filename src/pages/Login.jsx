@@ -59,7 +59,7 @@ export default function Login() {
         <div className="auth-image-wrapper">
           <div className="auth-image-container">
             <img
-              src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=800&auto=format&fit=crop&q=80"
+              src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=800&auto=format&fit=crop&q=80"
               alt="Professional Businessperson"
               className="auth-image"
             />
@@ -73,12 +73,12 @@ export default function Login() {
           </p>
           <div className="auth-testimonial-author">
             <img
-              src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80"
-              alt="Adam Sandler"
+              src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80"
+              alt="Vicky Jenkins"
               className="auth-testimonial-avatar"
             />
             <div className="auth-testimonial-info">
-              <h5>Adam Sandler</h5>
+              <h5>Vicky Jenkins</h5>
               <p>Lead Engineer at Canva</p>
             </div>
           </div>

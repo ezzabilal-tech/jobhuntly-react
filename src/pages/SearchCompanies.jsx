@@ -1,125 +1,14 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import { Search, MapPin, LayoutGrid, List } from 'lucide-react';
-import { SiStripe, SiSquare, SiCoinbase, SiRobinhood, SiRevolut } from 'react-icons/si';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
+import { companiesList } from '../data/companies';
 import '../styles/global.css';
 import './SearchCompanies.css';
 
-const industryOptions = [
-  { name: 'Advertising', count: 12 },
-  { name: 'Business Service', count: 34 },
-  { name: 'Blockchain', count: 8 },
-  { name: 'Cloud', count: 19 },
-  { name: 'Consumer Tech', count: 27 },
-  { name: 'Education', count: 15 },
-  { name: 'Fintech', count: 22 },
-  { name: 'Gaming', count: 11 },
-  { name: 'Food & Beverage', count: 6 },
-  { name: 'Healthcare', count: 14 },
-  { name: 'Hosting', count: 5 },
-  { name: 'Media', count: 9 },
-];
-
-const sizeOptions = [
-  { name: '1 - 50', count: 25 },
-  { name: '51 - 150', count: 18 },
-  { name: '151 - 250', count: 26 },
-  { name: '251 - 500', count: 12 },
-  { name: '501 - 1000', count: 7 },
-  { name: '1000 - above', count: 4 },
-];
-
-const companies = [
-  {
-    name: 'Stripe',
-    initial: 'S',
-    color: '#635BFF',
-    icon: SiStripe,
-    industry: 'Fintech',
-    size: '1000 - above',
-    jobs: 7,
-    description: 'Stripe is a software platform for starting and running internet businesses. Millions of businesses rely on Stripe\u2019s software tools.',
-    tags: ['Fintech', 'Payment gateway'],
-  },
-  {
-    name: 'Truebill',
-    initial: 'T',
-    color: '#26A4FF',
-    industry: 'Fintech',
-    size: '51 - 150',
-    jobs: 7,
-    description: 'Truebill takes control of your money. Truebill develops a mobile app that helps consumers take control of their financial.',
-    tags: ['Fintech'],
-  },
-  {
-    name: 'Square',
-    initial: 'S',
-    color: '#111827',
-    icon: SiSquare,
-    industry: 'Fintech',
-    size: '501 - 1000',
-    jobs: 7,
-    description: 'Square builds common business tools in unconventional ways so more people can start, run, and grow their businesses.',
-    tags: ['Fintech'],
-  },
-  {
-    name: 'Coinbase',
-    initial: 'C',
-    color: '#0052FF',
-    icon: SiCoinbase,
-    industry: 'Blockchain',
-    size: '251 - 500',
-    jobs: 7,
-    description: 'Coinbase is a digital currency wallet and platform where merchants and consumers can transact with new digital currencies.',
-    tags: ['Fintech'],
-  },
-  {
-    name: 'Robinhood',
-    initial: 'R',
-    color: '#111827',
-    icon: SiRobinhood,
-    industry: 'Fintech',
-    size: '151 - 250',
-    jobs: 7,
-    description: 'Robinhood is lowering barriers, removing fees, and providing greater access to financial information.',
-    tags: ['Fintech'],
-  },
-  {
-    name: 'Kraken',
-    initial: 'K',
-    color: '#5741D9',
-    industry: 'Blockchain',
-    size: '251 - 500',
-    jobs: 7,
-    description: 'Based in San Francisco, Kraken is the world\u2019s largest global bitcoin exchange in euro volume and liquidity.',
-    tags: ['Fintech'],
-  },
-  {
-    name: 'Revolut',
-    initial: 'R',
-    color: '#25324B',
-    icon: SiRevolut,
-    industry: 'Fintech',
-    size: '251 - 500',
-    jobs: 7,
-    description: 'When Revolut was founded in 2015, we had a vision to build a sustainable, digital alternative to traditional big banks.',
-    tags: ['Fintech'],
-  },
-  {
-    name: 'Divy',
-    initial: 'D',
-    color: '#111827',
-    industry: 'Fintech',
-    size: '51 - 150',
-    jobs: 7,
-    description: 'Divy is a secure financial platform for businesses to manage payments and subscriptions.',
-    tags: ['Fintech'],
-  },
-];
-
 const PAGE_SIZE = 6;
+
 
 export default function SearchCompanies() {
   const navigate = useNavigate();
@@ -130,6 +19,49 @@ export default function SearchCompanies() {
   const [selectedSizes, setSelectedSizes] = useState([]);
   const [page, setPage] = useState(1);
 
+  useEffect(() => {
+    setQuery(searchParams.get('q') || '');
+    setLocation(searchParams.get('location') || 'Florence, Italy');
+  }, [searchParams]);
+
+  const industryOptions = useMemo(() => {
+    const baseList = [
+      'Advertising',
+      'Business Service',
+      'Blockchain',
+      'Cloud',
+      'Consumer Tech',
+      'Design',
+      'Education',
+      'Fintech',
+      'Gaming',
+      'Food & Beverage',
+      'Healthcare',
+      'Hosting',
+      'Media',
+      'Technology',
+    ];
+    return baseList.map((name) => {
+      const count = companiesList.filter((c) => c.industry === name).length;
+      return { name, count };
+    });
+  }, []);
+
+  const sizeOptions = useMemo(() => {
+    const baseSizes = [
+      '1 - 50',
+      '51 - 150',
+      '151 - 250',
+      '251 - 500',
+      '501 - 1000',
+      '1000 - above',
+    ];
+    return baseSizes.map((name) => {
+      const count = companiesList.filter((c) => c.size === name).length;
+      return { name, count };
+    });
+  }, []);
+
   const toggle = (list, setList, value) => {
     setPage(1);
     setList((prev) =>
@@ -138,18 +70,30 @@ export default function SearchCompanies() {
   };
 
   const filtered = useMemo(() => {
-    return companies.filter((c) => {
+    return companiesList.filter((c) => {
+      const q = query.trim().toLowerCase();
       const matchesQuery =
-        !query.trim() ||
-        c.name.toLowerCase().includes(query.trim().toLowerCase()) ||
-        c.industry.toLowerCase().includes(query.trim().toLowerCase());
+        !q ||
+        c.name.toLowerCase().includes(q) ||
+        c.industry.toLowerCase().includes(q) ||
+        (c.tags && c.tags.some((tag) => tag.toLowerCase().includes(q))) ||
+        (c.description && c.description.toLowerCase().includes(q));
+
+      const locClean = location.trim().toLowerCase();
+      const companyLocClean = (c.location || '').toLowerCase();
+      const matchesLocation =
+        !locClean ||
+        locClean === 'florence, italy' ||
+        companyLocClean.includes(locClean);
+
       const matchesIndustry =
         selectedIndustries.length === 0 || selectedIndustries.includes(c.industry);
       const matchesSize =
         selectedSizes.length === 0 || selectedSizes.includes(c.size);
-      return matchesQuery && matchesIndustry && matchesSize;
+
+      return matchesQuery && matchesLocation && matchesIndustry && matchesSize;
     });
-  }, [query, selectedIndustries, selectedSizes]);
+  }, [query, location, selectedIndustries, selectedSizes]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const paginated = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
@@ -197,10 +141,19 @@ export default function SearchCompanies() {
 
           <div className="search-hero__popular">
             <span>Popular :</span>
-            <a href="#">Twitter</a>
-            <a href="#">Microsoft</a>
-            <a href="#">Apple</a>
-            <a href="#">Facebook</a>
+            {['Twitter', 'Microsoft', 'Apple', 'Facebook', 'Fintech'].map((p) => (
+              <a
+                key={p}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setQuery(p);
+                  navigate(`/companies/search?q=${encodeURIComponent(p)}&location=${encodeURIComponent(location)}`);
+                }}
+              >
+                {p}
+              </a>
+            ))}
           </div>
         </div>
       </section>
