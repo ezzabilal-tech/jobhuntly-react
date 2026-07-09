@@ -17,10 +17,19 @@ import {
   Star,
   MoreHorizontal,
   ChevronRight,
+  CheckCircle2,
+  Pencil,
+  HeartPulse,
+  Waves,
+  Video,
+  Triangle,
+  Coffee,
+  Bus,
+  HandHeart,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
-import { jobs } from '../data/jobs';
+import { jobs, getJobDetails } from '../data/jobs';
 import { applicants, stageStyles } from '../data/applicants';
 import './Dashboard.css';
 import './EmployerDashboard.css';
@@ -83,6 +92,18 @@ export default function JobApplicants() {
     ...def,
     applicants: filteredApplicants.filter((a) => def.stages.includes(a.stage)),
   }));
+
+  const jobDetails = getJobDetails(job);
+
+  const perkIconMap = {
+    health: HeartPulse,
+    vacation: Waves,
+    skill: Video,
+    summit: Triangle,
+    remote: Coffee,
+    commuter: Bus,
+    giveback: HandHeart,
+  };
 
   return (
     <div className="dashboard-page">
@@ -195,167 +216,307 @@ export default function JobApplicants() {
             </button>
           </div>
 
-          <div className="aa-top-row" style={{ marginTop: 20 }}>
-            <h1 className="aa-title">Total Applicants: {jobApplicants.length}</h1>
+          {activeTab === 'applicants' && (
+            <>
+              <div className="aa-top-row" style={{ marginTop: 20 }}>
+                <h1 className="aa-title">Total Applicants: {jobApplicants.length}</h1>
 
-            <div className="aa-controls">
-              <div className="aa-search">
-                <Search size={16} className="aa-search-icon" />
-                <input
-                  type="text"
-                  placeholder="Search Applicants"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
-              </div>
-              <button className="aa-filter-btn">
-                <SlidersHorizontal size={16} /> Filter
-              </button>
-              <div className="aa-view-toggle">
-                <button
-                  type="button"
-                  className={`aa-view-btn ${viewMode === 'pipeline' ? 'aa-view-btn--active' : ''}`}
-                  onClick={() => setViewMode('pipeline')}
-                >
-                  Pipeline View
-                </button>
-                <button
-                  type="button"
-                  className={`aa-view-btn ${viewMode === 'table' ? 'aa-view-btn--active' : ''}`}
-                  onClick={() => setViewMode('table')}
-                >
-                  Table View
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {viewMode === 'table' ? (
-            <div className="ja-pipeline">
-              {pipelineStages.map((stage) => (
-                <div className="ja-pipeline-col" key={stage.key}>
-                  <div className="ja-pipeline-col-header">
-                    <span className={`ja-pipeline-dot ja-pipeline-dot--${stage.key}`} />
-                    <span className="ja-pipeline-col-title">{stage.label}</span>
-                    <span className="ja-pipeline-col-count">{stage.applicants.length}</span>
-                    <button className="ja-pipeline-col-more">
-                      <MoreHorizontal size={16} />
+                <div className="aa-controls">
+                  <div className="aa-search">
+                    <Search size={16} className="aa-search-icon" />
+                    <input
+                      type="text"
+                      placeholder="Search Applicants"
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                    />
+                  </div>
+                  <button className="aa-filter-btn">
+                    <SlidersHorizontal size={16} /> Filter
+                  </button>
+                  <div className="aa-view-toggle">
+                    <button
+                      type="button"
+                      className={`aa-view-btn ${viewMode === 'pipeline' ? 'aa-view-btn--active' : ''}`}
+                      onClick={() => setViewMode('pipeline')}
+                    >
+                      Pipeline View
+                    </button>
+                    <button
+                      type="button"
+                      className={`aa-view-btn ${viewMode === 'table' ? 'aa-view-btn--active' : ''}`}
+                      onClick={() => setViewMode('table')}
+                    >
+                      Table View
                     </button>
                   </div>
+                </div>
+              </div>
 
-                  <div className="ja-pipeline-col-body">
-                    {stage.applicants.map((a) => (
-                      <div className="ja-pipeline-card" key={a.id}>
-                        <div className="ja-pipeline-card-top">
-                          <img src={a.avatar} alt={a.name} className="ja-pipeline-avatar" />
-                          <div>
-                            <div className="ja-pipeline-name">{a.name}</div>
-                            <Link
-                              to={`/employer/applicants/${a.id}`}
-                              className="ja-pipeline-viewprofile"
-                            >
-                              View Profile
-                            </Link>
-                          </div>
-                        </div>
-                        <div className="ja-pipeline-card-bottom">
-                          <div>
-                            <div className="ja-pipeline-meta-label">Applied on</div>
-                            <div className="ja-pipeline-meta-value">{a.appliedDate}</div>
-                          </div>
-                          <div>
-                            <div className="ja-pipeline-meta-label">Score</div>
-                            <div className="ja-pipeline-meta-value ja-pipeline-score">
-                              <Star size={12} className="aa-score-star" />
-                              {a.rating.toFixed(1)}
+              {viewMode === 'table' ? (
+                <div className="ja-pipeline">
+                  {pipelineStages.map((stage) => (
+                    <div className="ja-pipeline-col" key={stage.key}>
+                      <div className="ja-pipeline-col-header">
+                        <span className={`ja-pipeline-dot ja-pipeline-dot--${stage.key}`} />
+                        <span className="ja-pipeline-col-title">{stage.label}</span>
+                        <span className="ja-pipeline-col-count">{stage.applicants.length}</span>
+                        <button className="ja-pipeline-col-more">
+                          <MoreHorizontal size={16} />
+                        </button>
+                      </div>
+
+                      <div className="ja-pipeline-col-body">
+                        {stage.applicants.map((a) => (
+                          <div className="ja-pipeline-card" key={a.id}>
+                            <div className="ja-pipeline-card-top">
+                              <img src={a.avatar} alt={a.name} className="ja-pipeline-avatar" />
+                              <div>
+                                <div className="ja-pipeline-name">{a.name}</div>
+                                <Link
+                                  to={`/employer/applicants/${a.id}`}
+                                  className="ja-pipeline-viewprofile"
+                                >
+                                  View Profile
+                                </Link>
+                              </div>
+                            </div>
+                            <div className="ja-pipeline-card-bottom">
+                              <div>
+                                <div className="ja-pipeline-meta-label">Applied on</div>
+                                <div className="ja-pipeline-meta-value">{a.appliedDate}</div>
+                              </div>
+                              <div>
+                                <div className="ja-pipeline-meta-label">Score</div>
+                                <div className="ja-pipeline-meta-value ja-pipeline-score">
+                                  <Star size={12} className="aa-score-star" />
+                                  {a.rating.toFixed(1)}
+                                </div>
+                              </div>
                             </div>
                           </div>
-                        </div>
+                        ))}
+                        {stage.applicants.length === 0 && (
+                          <div className="ja-pipeline-empty">No applicants</div>
+                        )}
                       </div>
-                    ))}
-                    {stage.applicants.length === 0 && (
-                      <div className="ja-pipeline-empty">No applicants</div>
-                    )}
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <div className="aa-table-card">
+                  <table className="aa-table">
+                    <thead>
+                      <tr>
+                        <th className="aa-th-checkbox">
+                          <input type="checkbox" />
+                        </th>
+                        <th>Full Name <ChevronDown size={12} /></th>
+                        <th>Score <ChevronDown size={12} /></th>
+                        <th>Hiring Stage <ChevronDown size={12} /></th>
+                        <th>Applied Date <ChevronDown size={12} /></th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredApplicants.map((a) => (
+                        <tr key={a.id}>
+                          <td>
+                            <input type="checkbox" />
+                          </td>
+                          <td>
+                            <div className="aa-name-cell">
+                              <img src={a.avatar} alt={a.name} className="aa-avatar" />
+                              <span>{a.name}</span>
+                            </div>
+                          </td>
+                          <td>
+                            <div className="aa-score">
+                              <Star size={14} className="aa-score-star" />
+                              {a.rating.toFixed(1)}
+                            </div>
+                          </td>
+                          <td>
+                            <span className={`aa-stage ${stageStyles[a.stage] || ''}`}>{a.stage}</span>
+                          </td>
+                          <td className="aa-muted">{a.appliedDate}</td>
+                          <td>
+                            <div className="aa-action-cell">
+                              <button className="aa-see-app-btn" onClick={() => navigate(`/employer/applicants/${a.id}`)}>
+                                See Application
+                              </button>
+                              <button className="aa-more-btn">
+                                <MoreHorizontal size={18} />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                      {filteredApplicants.length === 0 && (
+                        <tr>
+                          <td colSpan={6} className="aa-empty">No applicants found</td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
+
+                  <div className="aa-pagination">
+                    <div className="aa-pagination-left">
+                      <span>View</span>
+                      <select defaultValue="10">
+                        <option>10</option>
+                        <option>20</option>
+                        <option>50</option>
+                      </select>
+                      <span>Applicants per page</span>
+                    </div>
+                    <div className="aa-pagination-right">
+                      <button className="aa-page-arrow"><ChevronLeft size={16} /></button>
+                      <button className="aa-page-num aa-page-num--active">1</button>
+                      <button className="aa-page-num">2</button>
+                      <button className="aa-page-num">3</button>
+                      <button className="aa-page-arrow"><ChevronRight size={16} /></button>
+                    </div>
                   </div>
                 </div>
-              ))}
-            </div>
-          ) : (
-            <div className="aa-table-card">
-              <table className="aa-table">
-                <thead>
-                  <tr>
-                    <th className="aa-th-checkbox">
-                      <input type="checkbox" />
-                    </th>
-                    <th>Full Name <ChevronDown size={12} /></th>
-                    <th>Score <ChevronDown size={12} /></th>
-                    <th>Hiring Stage <ChevronDown size={12} /></th>
-                    <th>Applied Date <ChevronDown size={12} /></th>
-                    <th>Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredApplicants.map((a) => (
-                    <tr key={a.id}>
-                      <td>
-                        <input type="checkbox" />
-                      </td>
-                      <td>
-                        <div className="aa-name-cell">
-                          <img src={a.avatar} alt={a.name} className="aa-avatar" />
-                          <span>{a.name}</span>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="aa-score">
-                          <Star size={14} className="aa-score-star" />
-                          {a.rating.toFixed(1)}
-                        </div>
-                      </td>
-                      <td>
-                        <span className={`aa-stage ${stageStyles[a.stage] || ''}`}>{a.stage}</span>
-                      </td>
-                      <td className="aa-muted">{a.appliedDate}</td>
-                      <td>
-                        <div className="aa-action-cell">
-                          <button className="aa-see-app-btn" onClick={() => navigate(`/employer/applicants/${a.id}`)}>
-                            See Application
-                          </button>
-                          <button className="aa-more-btn">
-                            <MoreHorizontal size={18} />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                  {filteredApplicants.length === 0 && (
-                    <tr>
-                      <td colSpan={6} className="aa-empty">No applicants found</td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+              )}
+            </>
+          )}
 
-              <div className="aa-pagination">
-                <div className="aa-pagination-left">
-                  <span>View</span>
-                  <select defaultValue="10">
-                    <option>10</option>
-                    <option>20</option>
-                    <option>50</option>
-                  </select>
-                  <span>Applicants per page</span>
+          {activeTab === 'details' && (
+            <div className="jd-details-wrap">
+              <div className="jd-details-card">
+                <div className="jd-details-header">
+                  <div className="jd-details-header-left">
+                    <div className="jd-details-logo">S</div>
+                    <h2>{job.role}</h2>
+                  </div>
+                  <button className="ja-more-action-btn">
+                    <Pencil size={14} /> Edit Job Details
+                  </button>
                 </div>
-                <div className="aa-pagination-right">
-                  <button className="aa-page-arrow"><ChevronLeft size={16} /></button>
-                  <button className="aa-page-num aa-page-num--active">1</button>
-                  <button className="aa-page-num">2</button>
-                  <button className="aa-page-num">3</button>
-                  <button className="aa-page-arrow"><ChevronRight size={16} /></button>
+              </div>
+
+              <div className="jd-details-body">
+                <div className="jd-details-main">
+                  <section className="jd-section">
+                    <h3>Description</h3>
+                    <p>{jobDetails.description}</p>
+                  </section>
+
+                  <section className="jd-section">
+                    <h3>Responsibilities</h3>
+                    <ul className="jd-check-list">
+                      {jobDetails.responsibilities.map((item, i) => (
+                        <li key={i}>
+                          <CheckCircle2 size={16} className="jd-check-icon" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section className="jd-section">
+                    <h3>Who You Are</h3>
+                    <ul className="jd-check-list">
+                      {jobDetails.whoYouAre.map((item, i) => (
+                        <li key={i}>
+                          <CheckCircle2 size={16} className="jd-check-icon" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section className="jd-section">
+                    <h3>Nice-To-Haves</h3>
+                    <ul className="jd-check-list">
+                      {jobDetails.niceToHaves.map((item, i) => (
+                        <li key={i}>
+                          <CheckCircle2 size={16} className="jd-check-icon" />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  </section>
+                </div>
+
+                <aside className="jd-details-sidebar">
+                  <div className="jd-sidebar-block">
+                    <h4>About this role</h4>
+                    <div className="jd-capacity-row">
+                      <span>{jobApplicants.length} applied</span>
+                      <span>of {jobDetails.capacity} capacity</span>
+                    </div>
+                    <div className="jd-capacity-bar">
+                      <div
+                        className="jd-capacity-bar-fill"
+                        style={{ width: `${Math.min(100, (jobApplicants.length / jobDetails.capacity) * 100)}%` }}
+                      />
+                    </div>
+
+                    <div className="jd-fact-row">
+                      <span className="jd-fact-label">Apply Before</span>
+                      <span className="jd-fact-value">{jobDetails.applyBefore}</span>
+                    </div>
+                    <div className="jd-fact-row">
+                      <span className="jd-fact-label">Job Posted On</span>
+                      <span className="jd-fact-value">{jobDetails.jobPostedOn}</span>
+                    </div>
+                    <div className="jd-fact-row">
+                      <span className="jd-fact-label">Job Type</span>
+                      <span className="jd-fact-value">
+                        {job.jobType === 'Fulltime' ? 'Full-Time' : job.jobType}
+                      </span>
+                    </div>
+                    <div className="jd-fact-row">
+                      <span className="jd-fact-label">Salary</span>
+                      <span className="jd-fact-value">{jobDetails.salary}</span>
+                    </div>
+                  </div>
+
+                  <div className="jd-sidebar-block">
+                    <h4>Categories</h4>
+                    <div className="jd-tag-row">
+                      {jobDetails.categories.map((cat, i) => (
+                        <span key={i} className={`jd-tag jd-tag--cat-${i % 2}`}>{cat}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="jd-sidebar-block">
+                    <h4>Required Skills</h4>
+                    <div className="jd-tag-row">
+                      {jobDetails.requiredSkills.map((skill, i) => (
+                        <span key={i} className="jd-tag jd-tag--skill">{skill}</span>
+                      ))}
+                    </div>
+                  </div>
+                </aside>
+              </div>
+
+              <div className="jd-perks-section">
+                <h3>Perks &amp; Benefits</h3>
+                <p className="jd-perks-subtitle">This job comes with several perks and benefits</p>
+
+                <div className="jd-perks-grid">
+                  {jobDetails.perks.map((perk, i) => {
+                    const Icon = perkIconMap[perk.icon] || CheckCircle2;
+                    return (
+                      <div className="jd-perk-card" key={i}>
+                        <Icon size={22} className="jd-perk-icon" />
+                        <h5>{perk.title}</h5>
+                        <p>{perk.text}</p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
+          )}
+
+          {activeTab === 'analytics' && (
+            <div className="jd-empty-tab">Analytics coming soon.</div>
           )}
         </div>
       </main>
