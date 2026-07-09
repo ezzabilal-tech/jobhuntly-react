@@ -1,0 +1,270 @@
+.jl-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 12px 0 20px;
+}
+
+.jl-card {
+  background: #ffffff;
+  border: 1px solid #d6ddeb;
+  border-radius: 12px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+.jl-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.jl-card-header h3 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0 0 4px;
+}
+
+.jl-card-header p {
+  font-size: 13px;
+  color: #7c8493;
+  margin: 0;
+}
+
+.jl-card-header-right {
+  display: flex;
+  gap: 12px;
+}
+
+.jl-date-btn,
+.jl-filter-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background-color: #ffffff;
+  border: 1px solid #d6ddeb;
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #25324b;
+  cursor: pointer;
+}
+
+.jl-date-btn:hover,
+.jl-filter-btn:hover {
+  background-color: #f8f9fc;
+}
+
+/* Table */
+.jl-table-wrapper {
+  overflow-x: auto;
+}
+
+.jl-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.jl-table thead tr {
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.jl-table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #7c8493;
+  text-transform: none;
+  white-space: nowrap;
+}
+
+.jl-table tbody tr {
+  border-bottom: 1px solid #f1f3f9;
+  transition: background-color 0.15s ease;
+}
+
+.jl-table tbody tr:hover {
+  background-color: #f8f9fc;
+}
+
+.jl-table td {
+  padding: 16px;
+  color: #25324b;
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.jl-role-cell {
+  font-weight: 600;
+  color: #25324b;
+}
+
+/* Status Pills */
+.jl-status-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.jl-status-pill--live {
+  background-color: #e9fbf3;
+  color: #56cdad;
+}
+
+.jl-status-pill--closed {
+  background-color: #ffeaea;
+  color: #ff6550;
+}
+
+/* Job Type Pills */
+.jl-jobtype-pill {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.jl-jobtype-pill--fulltime {
+  background-color: #fff6e5;
+  color: #ffb836;
+}
+
+.jl-jobtype-pill--freelance {
+  background-color: #e9f2ff;
+  color: #26a4ff;
+}
+
+/* Applicant Avatar Stack */
+.jl-avatar-stack {
+  display: flex;
+  align-items: center;
+}
+
+.jl-avatar-stack-img {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  object-fit: cover;
+  margin-left: -8px;
+}
+
+.jl-avatar-stack-img:first-child {
+  margin-left: 0;
+}
+
+.jl-avatar-stack-count {
+  margin-left: 10px;
+  font-size: 12px;
+  color: #7c8493;
+  font-weight: 600;
+}
+
+.jl-needs-cell {
+  font-weight: 600;
+  color: #25324b;
+}
+
+.jl-row-menu-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: #7c8493;
+  padding: 6px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.jl-row-menu-btn:hover {
+  background-color: #f1f3f9;
+  color: #25324b;
+}
+
+/* Footer / Pagination */
+.jl-table-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 20px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.jl-per-page {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: #7c8493;
+}
+
+.jl-per-page select {
+  border: 1px solid #d6ddeb;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  color: #25324b;
+  background-color: #ffffff;
+  cursor: pointer;
+}
+
+.jl-pagination {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.jl-pagination button {
+  min-width: 32px;
+  height: 32px;
+  border: 1px solid #d6ddeb;
+  background-color: #ffffff;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #25324b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.jl-pagination button:hover:not(:disabled) {
+  background-color: #f1f3f9;
+}
+
+.jl-pagination button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.jl-pagination .jl-page-btn--active {
+  background-color: #4640de;
+  border-color: #4640de;
+  color: #ffffff;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .jl-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .jl-table-footer {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

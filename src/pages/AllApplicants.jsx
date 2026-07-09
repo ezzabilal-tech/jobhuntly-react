@@ -47,7 +47,7 @@ export default function AllApplicants() {
     { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
     { key: 'company-profile', label: 'Company Profile', icon: Building, href: '/employer/company-profile' },
     { key: 'all-applicants', label: 'All Applicants', icon: Users, href: '/employer/applicants' },
-    { key: 'job-listing', label: 'Job Listing', icon: FileText, href: '#' },
+    { key: 'job-listing', label: 'Job Listing', icon: FileText, href: '/employer/job-listing' },
     { key: 'my-schedule', label: 'My Schedule', icon: Calendar, href: '#' },
   ];
 

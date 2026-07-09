@@ -13,6 +13,7 @@ import EmployerDashboard from './pages/EmployerDashboard';
 import EmployerCompanyProfile from './pages/EmployerCompanyProfile';
 import AllApplicants from './pages/AllApplicants';
 import ApplicantDetail from './pages/ApplicantDetail';
+import JobListing from './pages/JobListing';
 import Messages from './pages/Messages';
 import MyApplications from './pages/MyApplications';
 import Profile from './pages/Profile';
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="/employer/company-profile" element={<EmployerCompanyProfile />} />
           <Route path="/employer/applicants" element={<AllApplicants />} />
           <Route path="/employer/applicants/:id" element={<ApplicantDetail />} />
+          <Route path="/employer/job-listing" element={<JobListing />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/applications" element={<MyApplications />} />
           <Route path="/profile" element={<Profile />} />
