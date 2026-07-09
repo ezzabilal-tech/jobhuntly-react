@@ -26,10 +26,12 @@ import {
   Coffee,
   Bus,
   HandHeart,
+  Eye,
+  Send,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
-import { jobs, getJobDetails } from '../data/jobs';
+import { jobs, getJobDetails, getJobAnalytics } from '../data/jobs';
 import { applicants, stageStyles } from '../data/applicants';
 import './Dashboard.css';
 import './EmployerDashboard.css';
@@ -94,6 +96,7 @@ export default function JobApplicants() {
   }));
 
   const jobDetails = getJobDetails(job);
+  const analytics = getJobAnalytics(job);
 
   const perkIconMap = {
     health: HeartPulse,
@@ -104,6 +107,37 @@ export default function JobApplicants() {
     commuter: Bus,
     giveback: HandHeart,
   };
+
+  // Build donut chart segments (SVG stroke-dasharray based pie/donut, no extra deps)
+  const donutRadius = 60;
+  const donutCircumference = 2 * Math.PI * donutRadius;
+  let donutOffsetAcc = 0;
+  const donutSegments = analytics.trafficChannel.map((seg) => {
+    const length = (seg.percent / 100) * donutCircumference;
+    const segment = {
+      ...seg,
+      length,
+      offset: donutOffsetAcc,
+    };
+    donutOffsetAcc += length;
+    return segment;
+  });
+
+  // Build the view-stats line chart path
+  const chartWidth = 640;
+  const chartHeight = 220;
+  const chartPad = 20;
+  const maxViews = Math.max(...analytics.viewStats.map((d) => d.views), 1);
+  const stepX = (chartWidth - chartPad * 2) / (analytics.viewStats.length - 1);
+  const chartPoints = analytics.viewStats.map((d, i) => {
+    const x = chartPad + i * stepX;
+    const y = chartHeight - chartPad - (d.views / maxViews) * (chartHeight - chartPad * 2);
+    return { x, y, ...d };
+  });
+  const chartPath = chartPoints
+    .map((p, i) => `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`)
+    .join(' ');
+  const highlightedPoint = chartPoints[Math.min(4, chartPoints.length - 1)];
 
   return (
     <div className="dashboard-page">
@@ -516,7 +550,151 @@ export default function JobApplicants() {
           )}
 
           {activeTab === 'analytics' && (
-            <div className="jd-empty-tab">Analytics coming soon.</div>
+            <div className="an-wrap">
+              <div className="an-top-cards">
+                <div className="an-stat-card">
+                  <div className="an-stat-card-head">
+                    <span>Total Views</span>
+                    <span className="an-stat-icon"><Eye size={16} /></span>
+                  </div>
+                  <div className="an-stat-value">{analytics.totalViews.toLocaleString()}</div>
+                  <div className="an-stat-change an-stat-change--up">
+                    {analytics.totalViewsChange}% <span>vs last day</span>
+                  </div>
+                </div>
+
+                <div className="an-stat-card">
+                  <div className="an-stat-card-head">
+                    <span>Total Applied</span>
+                    <span className="an-stat-icon"><Send size={16} /></span>
+                  </div>
+                  <div className="an-stat-value">{analytics.totalApplied}</div>
+                  <div className="an-stat-change an-stat-change--down">
+                    {analytics.totalAppliedChange}% <span>vs last day</span>
+                  </div>
+                </div>
+
+                <div className="an-traffic-card">
+                  <h4>Traffic channel</h4>
+                  <div className="an-traffic-body">
+                    <svg viewBox="0 0 160 160" className="an-donut">
+                      {donutSegments.map((seg, i) => (
+                        <circle
+                          key={i}
+                          cx="80"
+                          cy="80"
+                          r={donutRadius}
+                          fill="none"
+                          stroke={seg.color}
+                          strokeWidth="22"
+                          strokeDasharray={`${seg.length} ${donutCircumference - seg.length}`}
+                          strokeDashoffset={-seg.offset}
+                          transform="rotate(-90 80 80)"
+                        />
+                      ))}
+                      <text x="80" y="76" textAnchor="middle" className="an-donut-value">
+                        {analytics.totalViews > 999
+                          ? `${Math.round(analytics.totalViews / 1000)}`
+                          : analytics.totalViews}
+                      </text>
+                    </svg>
+
+                    <ul className="an-traffic-legend">
+                      {analytics.trafficChannel.map((seg, i) => (
+                        <li key={i}>
+                          <span className="an-legend-dot" style={{ background: seg.color }} />
+                          {seg.label} : {seg.percent}%
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div className="an-bottom-row">
+                <div className="an-chart-card">
+                  <div className="an-chart-card-head">
+                    <h4>Job Listing View stats</h4>
+                    <button className="jl-date-btn">
+                      Last 7 days <ChevronDown size={14} />
+                    </button>
+                  </div>
+
+                  <svg viewBox={`0 0 ${chartWidth} ${chartHeight + 30}`} className="an-line-chart">
+                    {[0, 1, 2, 3, 4, 5].map((i) => {
+                      const y = chartPad + i * ((chartHeight - chartPad * 2) / 5);
+                      return (
+                        <line
+                          key={i}
+                          x1={chartPad}
+                          x2={chartWidth - chartPad}
+                          y1={y}
+                          y2={y}
+                          className="an-grid-line"
+                        />
+                      );
+                    })}
+
+                    <path d={chartPath} className="an-line-path" fill="none" />
+
+                    {chartPoints.map((p, i) => (
+                      <circle key={i} cx={p.x} cy={p.y} r={i === 4 ? 5 : 3} className="an-line-dot" />
+                    ))}
+
+                    {highlightedPoint && (
+                      <g>
+                        <line
+                          x1={highlightedPoint.x}
+                          x2={highlightedPoint.x}
+                          y1={highlightedPoint.y}
+                          y2={chartHeight - chartPad}
+                          className="an-highlight-line"
+                        />
+                        <rect
+                          x={highlightedPoint.x - 34}
+                          y={highlightedPoint.y - 46}
+                          width="68"
+                          height="36"
+                          rx="8"
+                          className="an-tooltip-bg"
+                        />
+                        <text x={highlightedPoint.x} y={highlightedPoint.y - 30} textAnchor="middle" className="an-tooltip-label">
+                          Views
+                        </text>
+                        <text x={highlightedPoint.x} y={highlightedPoint.y - 16} textAnchor="middle" className="an-tooltip-value">
+                          {highlightedPoint.views}
+                        </text>
+                      </g>
+                    )}
+
+                    {chartPoints.map((p, i) => (
+                      <text
+                        key={i}
+                        x={p.x}
+                        y={chartHeight + 20}
+                        textAnchor="middle"
+                        className={`an-x-label ${i === 4 ? 'an-x-label--active' : ''}`}
+                      >
+                        {p.date}
+                      </text>
+                    ))}
+                  </svg>
+                </div>
+
+                <div className="an-country-card">
+                  <h4>Visitors by country</h4>
+                  <ul className="an-country-list">
+                    {analytics.visitorsByCountry.map((c, i) => (
+                      <li key={i}>
+                        <span className="an-country-flag">{c.flag}</span>
+                        <span className="an-country-name">{c.country}</span>
+                        <span className="an-country-count">{c.count.toLocaleString()}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
           )}
         </div>
       </main>

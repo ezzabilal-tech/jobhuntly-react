@@ -145,3 +145,39 @@ export function getJobDetails(job) {
     requiredSkills: ['Project Management', 'Copywriting', 'English', 'Social Media Marketing', 'Copy Editing'],
   };
 }
+
+// Generates "Analytics" tab data (views, applied, traffic channel split,
+// view-stats trend, visitors by country) for a job.
+export function getJobAnalytics(job) {
+  if (job.analytics) return job.analytics;
+
+  return {
+    totalViews: 23564,
+    totalViewsChange: 6.4,
+    totalApplied: 132,
+    totalAppliedChange: 0.4,
+    trafficChannel: [
+      { label: 'Direct', percent: 48, color: '#ffb836' },
+      { label: 'Social', percent: 23, color: '#56b8de' },
+      { label: 'Organic', percent: 24, color: '#4640de' },
+      { label: 'Other', percent: 5, color: '#56cdad' },
+    ],
+    viewStats: [
+      { date: '19 Jul', views: 240 },
+      { date: '20 Jul', views: 139 },
+      { date: '21 Jul', views: 980 },
+      { date: '22 Jul', views: 300 },
+      { date: '23 Jul', views: 243 },
+      { date: '24 Jul', views: 890 },
+      { date: '25 Jul', views: 180 },
+    ],
+    visitorsByCountry: [
+      { country: 'USA', flag: '\ud83c\uddfa\ud83c\uddf8', count: 3240 },
+      { country: 'France', flag: '\ud83c\uddeb\ud83c\uddf7', count: 3188 },
+      { country: 'Italy', flag: '\ud83c\uddee\ud83c\uddf9', count: 2938 },
+      { country: 'Germany', flag: '\ud83c\udde9\ud83c\uddea', count: 2624 },
+      { country: 'Japan', flag: '\ud83c\uddef\ud83c\uddf5', count: 2414 },
+      { country: 'Netherlands', flag: '\ud83c\uddf3\ud83c\uddf1', count: 1820 },
+    ],
+  };
+}
