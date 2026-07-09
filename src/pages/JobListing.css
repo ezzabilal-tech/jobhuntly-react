@@ -94,6 +94,10 @@
   background-color: #f8f9fc;
 }
 
+.jl-row-clickable {
+  cursor: pointer;
+}
+
 .jl-table td {
   padding: 16px;
   color: #25324b;

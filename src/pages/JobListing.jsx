@@ -166,7 +166,11 @@ export default function JobListing() {
               </thead>
               <tbody>
                 {paginatedJobs.map((job) => (
-                  <tr key={job.id}>
+                  <tr
+                    key={job.id}
+                    className="jl-row-clickable"
+                    onClick={() => navigate(`/employer/job-listing/${job.id}/applicants`)}
+                  >
                     <td className="jl-role-cell">{job.role}</td>
                     <td>
                       <span
@@ -203,7 +207,10 @@ export default function JobListing() {
                     </td>
                     <td className="jl-needs-cell">{job.needs}</td>
                     <td>
-                      <button className="jl-row-menu-btn">
+                      <button
+                        className="jl-row-menu-btn"
+                        onClick={(e) => e.stopPropagation()}
+                      >
                         <MoreVertical size={16} />
                       </button>
                     </td>
