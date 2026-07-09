@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useState, useEffect, useMemo } from 'react';
+import { useNavigate, useLocation, useSearchParams } from 'react-router-dom';
 import { Search, MapPin, Bookmark } from 'lucide-react';
 import {
   SiDropbox,
@@ -17,18 +17,18 @@ import '../styles/global.css';
 import './FindJobs.css';
 
 const jobs = [
-  { title: 'Social Media Assistant', company: 'Nomad', icon: SiNomad, color: '#56CDAD', location: 'Paris, France', type: 'Full-Time', posted: '1 day ago', tags: ['Marketing', 'Design'], applied: 5, capacity: 10 },
-  { title: 'Brand Designer', company: 'Dropbox', icon: SiDropbox, color: '#4640DE', location: 'San Francisco, USA', type: 'Full-Time', posted: '1 day ago', tags: ['Design', 'Business'], applied: 2, capacity: 10 },
-  { title: 'Interactive Developer', company: 'Terraform', icon: SiTerraform, color: '#4640DE', location: 'Hamburg, Germany', type: 'Full-Time', posted: '2 days ago', tags: ['Marketing', 'Design'], applied: 8, capacity: 12 },
-  { title: 'Email Marketing', company: 'Revolut', icon: SiRevolut, color: '#25324B', location: 'Madrid, Spain', type: 'Full-Time', posted: '2 days ago', tags: ['Marketing', 'Design'], applied: 0, capacity: 10 },
-  { title: 'HR Manager', company: 'Packer', icon: SiPacker, color: '#FF6550', location: 'Lucerne, Switzerland', type: 'Full-Time', posted: '3 days ago', tags: ['Human Resource'], applied: 3, capacity: 10 },
-  { title: 'Product Designer', company: 'Maze', icon: SiMaze, color: '#4640DE', location: 'San Francisco, USA', type: 'Full-Time', posted: '3 days ago', tags: ['Design'], applied: 6, capacity: 10 },
-  { title: 'Copywriter', company: 'Udacity', icon: SiUdacity, color: '#26A4FF', location: 'Bali, Indonesia', type: 'Part-Time', posted: '5 days ago', tags: ['Marketing', 'Design'], applied: 4, capacity: 10 },
+  { title: 'Social Media Assistant', company: 'Nomad', icon: SiNomad, color: '#56CDAD', location: 'Paris, France', type: 'Full-Time', posted: '1 day ago', tags: ['Marketing', 'Design'], category: 'Marketing', applied: 5, capacity: 10 },
+  { title: 'Brand Designer', company: 'Dropbox', icon: SiDropbox, color: '#4640DE', location: 'San Francisco, USA', type: 'Full-Time', posted: '1 day ago', tags: ['Design', 'Business'], category: 'Design', applied: 2, capacity: 10 },
+  { title: 'Interactive Developer', company: 'Terraform', icon: SiTerraform, color: '#4640DE', location: 'Hamburg, Germany', type: 'Full-Time', posted: '2 days ago', tags: ['Marketing', 'Design'], category: 'Engineering', applied: 8, capacity: 12 },
+  { title: 'Email Marketing', company: 'Revolut', icon: SiRevolut, color: '#25324B', location: 'Madrid, Spain', type: 'Full-Time', posted: '2 days ago', tags: ['Marketing', 'Design'], category: 'Marketing', applied: 0, capacity: 10 },
+  { title: 'HR Manager', company: 'Packer', icon: SiPacker, color: '#FF6550', location: 'Lucerne, Switzerland', type: 'Full-Time', posted: '3 days ago', tags: ['Human Resource'], category: 'Human Resource', applied: 3, capacity: 10 },
+  { title: 'Product Designer', company: 'Maze', icon: SiMaze, color: '#4640DE', location: 'San Francisco, USA', type: 'Full-Time', posted: '3 days ago', tags: ['Design'], category: 'Design', applied: 6, capacity: 10 },
+  { title: 'Copywriter', company: 'Udacity', icon: SiUdacity, color: '#26A4FF', location: 'Bali, Indonesia', type: 'Part-Time', posted: '5 days ago', tags: ['Marketing', 'Design'], category: 'Marketing', applied: 4, capacity: 10 },
 ];
 
 const filterGroups = [
   { title: 'Type of Employment', options: ['Full-time', 'Part-Time', 'Remote', 'Internship', 'Contract'] },
-  { title: 'Categories', options: ['Design', 'Sales', 'Marketing', 'Finance', 'Technology'] },
+  { title: 'Categories', options: ['Design', 'Sales', 'Marketing', 'Finance', 'Technology', 'Engineering', 'Business', 'Human Resource'] },
   { title: 'Job Level', options: ['Entry Level', 'Mid Level', 'Senior Level', 'Director', 'VP or Above'] },
   { title: 'Salary Range', options: ['$700 - $1000', '$100 - $1500', '$1500 - $2000', '$3000 or above'] },
 ];
@@ -37,7 +37,31 @@ export default function FindJobs() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams] = useSearchParams();
   const [appliedJobs, setAppliedJobs] = useState({});
+
+  // Categories pre-checked/filtered from the ?category= query param (e.g. from Home page cards)
+  const [selectedCategories, setSelectedCategories] = useState([]);
+
+  useEffect(() => {
+    const category = searchParams.get('category');
+    if (category) {
+      setSelectedCategories([category]);
+    } else {
+      setSelectedCategories([]);
+    }
+  }, [searchParams]);
+
+  const toggleCategory = (opt) => {
+    setSelectedCategories((prev) =>
+      prev.includes(opt) ? prev.filter((c) => c !== opt) : [...prev, opt]
+    );
+  };
+
+  const visibleJobs = useMemo(() => {
+    if (selectedCategories.length === 0) return jobs;
+    return jobs.filter((job) => selectedCategories.includes(job.category));
+  }, [selectedCategories]);
 
   const handleApply = (jobTitle, index) => {
     if (!user) {
@@ -91,7 +115,12 @@ export default function FindJobs() {
               <h4>{group.title}</h4>
               {group.options.map((opt) => (
                 <label key={opt} className="filter-option">
-                  <input type="checkbox" /> {opt}
+                  <input
+                    type="checkbox"
+                    checked={group.title === 'Categories' && selectedCategories.includes(opt)}
+                    onChange={group.title === 'Categories' ? () => toggleCategory(opt) : undefined}
+                  />{' '}
+                  {opt}
                 </label>
               ))}
             </div>
@@ -100,7 +129,7 @@ export default function FindJobs() {
 
         <div className="jobs-results">
           <div className="jobs-results__header">
-            <span>{jobs.length} Jobs Results</span>
+            <span>{visibleJobs.length} Jobs Results</span>
             <select>
               <option>Most relevant</option>
               <option>Most recent</option>
@@ -108,7 +137,7 @@ export default function FindJobs() {
           </div>
 
           <ul className="jobs-list">
-            {jobs.map((job, i) => (
+            {visibleJobs.map((job, i) => (
               <li key={job.title} className="job-row">
                 <div className="job-row__logo" style={{ background: job.color }}>
                   <job.icon size={22} color="#fff" />

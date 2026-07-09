@@ -139,21 +139,25 @@ export default function Home() {
           <div>
             <h2>Explore by <span className="text-primary">category</span></h2>
           </div>
-          <a href="/categories" className="section__link">
+          <Link to="/jobs" className="section__link">
             Show all jobs <ArrowRight size={16} />
-          </a>
+          </Link>
         </div>
 
         <div className="category-grid">
           {categories.map((cat) => (
-            <div key={cat.name} className={`category-card${cat.active ? ' category-card--active' : ''}`}>
+            <Link
+              key={cat.name}
+              to={`/jobs?category=${encodeURIComponent(cat.name)}`}
+              className={`category-card${cat.active ? ' category-card--active' : ''}`}
+            >
               <span className="category-card__icon">
                 <cat.icon size={24} />
               </span>
               <h3>{cat.name}</h3>
               <p>{cat.count} jobs available</p>
               <ArrowRight size={16} className="category-card__arrow" />
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -208,9 +212,9 @@ export default function Home() {
             <h2>Featured <span className="text-primary">jobs</span></h2>
             <p>Know your worth and find the job that qualify your life</p>
           </div>
-          <a href="/jobs" className="section__link">
+          <Link to="/jobs" className="section__link">
             Show all jobs <ArrowRight size={16} />
-          </a>
+          </Link>
         </div>
 
         <div className="job-grid">
@@ -241,9 +245,9 @@ export default function Home() {
           <div>
             <h2>Latest <span className="text-primary">jobs open</span></h2>
           </div>
-          <a href="/jobs" className="section__link">
+          <Link to="/jobs" className="section__link">
             Show all jobs <ArrowRight size={16} />
-          </a>
+          </Link>
         </div>
 
         <div className="latest-grid">
