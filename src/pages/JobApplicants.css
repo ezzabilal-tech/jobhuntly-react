@@ -86,3 +86,150 @@
     margin-left: 0;
   }
 }
+
+/* Pipeline (Kanban) view */
+.ja-pipeline {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 12px;
+}
+
+.ja-pipeline-col {
+  background: #f8f8fd;
+  border-radius: 12px;
+  min-width: 260px;
+  flex: 1 1 260px;
+  padding: 14px;
+}
+
+.ja-pipeline-col-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.ja-pipeline-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ffb836;
+  flex-shrink: 0;
+}
+
+.ja-pipeline-dot--shortlisted {
+  background: #4640de;
+}
+
+.ja-pipeline-dot--interview {
+  background: #56b8de;
+}
+
+.ja-pipeline-dot--hired {
+  background: #56cdad;
+}
+
+.ja-pipeline-col-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #25324b;
+}
+
+.ja-pipeline-col-count {
+  background: #eef1f5;
+  color: #7c8493;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.ja-pipeline-col-more {
+  margin-left: auto;
+  border: none;
+  background: transparent;
+  color: #7c8493;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.ja-pipeline-col-body {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ja-pipeline-card {
+  background: #fff;
+  border: 1px solid #d6ddeb;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.ja-pipeline-card-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ja-pipeline-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.ja-pipeline-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #25324b;
+}
+
+.ja-pipeline-viewprofile {
+  font-size: 12px;
+  font-weight: 600;
+  color: #4640de;
+  text-decoration: none;
+}
+
+.ja-pipeline-viewprofile:hover {
+  text-decoration: underline;
+}
+
+.ja-pipeline-card-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid #eef1f5;
+  padding-top: 12px;
+}
+
+.ja-pipeline-meta-label {
+  font-size: 11px;
+  color: #7c8493;
+  margin-bottom: 4px;
+}
+
+.ja-pipeline-meta-value {
+  font-size: 13px;
+  font-weight: 600;
+  color: #25324b;
+}
+
+.ja-pipeline-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.ja-pipeline-empty {
+  color: #7c8493;
+  font-size: 13px;
+  text-align: center;
+  padding: 20px 0;
+}

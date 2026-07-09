@@ -32,7 +32,7 @@ export default function JobApplicants() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState('table'); // 'pipeline' | 'table'
+  const [viewMode, setViewMode] = useState('pipeline'); // 'pipeline' | 'table'
   const [activeTab, setActiveTab] = useState('applicants'); // 'applicants' | 'details' | 'analytics'
 
   const job = jobs.find((j) => String(j.id) === String(id)) || jobs[0];
@@ -71,6 +71,18 @@ export default function JobApplicants() {
   const filteredApplicants = jobApplicants.filter((a) =>
     a.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
+
+  const pipelineStageDefs = [
+    { key: 'review', label: 'In Review', stages: ['In Review'] },
+    { key: 'shortlisted', label: 'Shortlisted', stages: ['Shortlisted'] },
+    { key: 'interview', label: 'Interview', stages: ['Interview', 'Interviewed'] },
+    { key: 'hired', label: 'Hired', stages: ['Hired'] },
+  ];
+
+  const pipelineStages = pipelineStageDefs.map((def) => ({
+    ...def,
+    applicants: filteredApplicants.filter((a) => def.stages.includes(a.stage)),
+  }));
 
   return (
     <div className="dashboard-page">
@@ -201,12 +213,14 @@ export default function JobApplicants() {
               </button>
               <div className="aa-view-toggle">
                 <button
+                  type="button"
                   className={`aa-view-btn ${viewMode === 'pipeline' ? 'aa-view-btn--active' : ''}`}
                   onClick={() => setViewMode('pipeline')}
                 >
                   Pipeline View
                 </button>
                 <button
+                  type="button"
                   className={`aa-view-btn ${viewMode === 'table' ? 'aa-view-btn--active' : ''}`}
                   onClick={() => setViewMode('table')}
                 >
@@ -216,81 +230,133 @@ export default function JobApplicants() {
             </div>
           </div>
 
-          <div className="aa-table-card">
-            <table className="aa-table">
-              <thead>
-                <tr>
-                  <th className="aa-th-checkbox">
-                    <input type="checkbox" />
-                  </th>
-                  <th>Full Name <ChevronDown size={12} /></th>
-                  <th>Score <ChevronDown size={12} /></th>
-                  <th>Hiring Stage <ChevronDown size={12} /></th>
-                  <th>Applied Date <ChevronDown size={12} /></th>
-                  <th>Action</th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredApplicants.map((a) => (
-                  <tr key={a.id}>
-                    <td>
-                      <input type="checkbox" />
-                    </td>
-                    <td>
-                      <div className="aa-name-cell">
-                        <img src={a.avatar} alt={a.name} className="aa-avatar" />
-                        <span>{a.name}</span>
-                      </div>
-                    </td>
-                    <td>
-                      <div className="aa-score">
-                        <Star size={14} className="aa-score-star" />
-                        {a.rating.toFixed(1)}
-                      </div>
-                    </td>
-                    <td>
-                      <span className={`aa-stage ${stageStyles[a.stage] || ''}`}>{a.stage}</span>
-                    </td>
-                    <td className="aa-muted">{a.appliedDate}</td>
-                    <td>
-                      <div className="aa-action-cell">
-                        <button className="aa-see-app-btn" onClick={() => navigate(`/employer/applicants/${a.id}`)}>
-                          See Application
-                        </button>
-                        <button className="aa-more-btn">
-                          <MoreHorizontal size={18} />
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
-                {filteredApplicants.length === 0 && (
-                  <tr>
-                    <td colSpan={6} className="aa-empty">No applicants found</td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+          {viewMode === 'table' ? (
+            <div className="ja-pipeline">
+              {pipelineStages.map((stage) => (
+                <div className="ja-pipeline-col" key={stage.key}>
+                  <div className="ja-pipeline-col-header">
+                    <span className={`ja-pipeline-dot ja-pipeline-dot--${stage.key}`} />
+                    <span className="ja-pipeline-col-title">{stage.label}</span>
+                    <span className="ja-pipeline-col-count">{stage.applicants.length}</span>
+                    <button className="ja-pipeline-col-more">
+                      <MoreHorizontal size={16} />
+                    </button>
+                  </div>
 
-            <div className="aa-pagination">
-              <div className="aa-pagination-left">
-                <span>View</span>
-                <select defaultValue="10">
-                  <option>10</option>
-                  <option>20</option>
-                  <option>50</option>
-                </select>
-                <span>Applicants per page</span>
-              </div>
-              <div className="aa-pagination-right">
-                <button className="aa-page-arrow"><ChevronLeft size={16} /></button>
-                <button className="aa-page-num aa-page-num--active">1</button>
-                <button className="aa-page-num">2</button>
-                <button className="aa-page-num">3</button>
-                <button className="aa-page-arrow"><ChevronRight size={16} /></button>
+                  <div className="ja-pipeline-col-body">
+                    {stage.applicants.map((a) => (
+                      <div className="ja-pipeline-card" key={a.id}>
+                        <div className="ja-pipeline-card-top">
+                          <img src={a.avatar} alt={a.name} className="ja-pipeline-avatar" />
+                          <div>
+                            <div className="ja-pipeline-name">{a.name}</div>
+                            <Link
+                              to={`/employer/applicants/${a.id}`}
+                              className="ja-pipeline-viewprofile"
+                            >
+                              View Profile
+                            </Link>
+                          </div>
+                        </div>
+                        <div className="ja-pipeline-card-bottom">
+                          <div>
+                            <div className="ja-pipeline-meta-label">Applied on</div>
+                            <div className="ja-pipeline-meta-value">{a.appliedDate}</div>
+                          </div>
+                          <div>
+                            <div className="ja-pipeline-meta-label">Score</div>
+                            <div className="ja-pipeline-meta-value ja-pipeline-score">
+                              <Star size={12} className="aa-score-star" />
+                              {a.rating.toFixed(1)}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                    {stage.applicants.length === 0 && (
+                      <div className="ja-pipeline-empty">No applicants</div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="aa-table-card">
+              <table className="aa-table">
+                <thead>
+                  <tr>
+                    <th className="aa-th-checkbox">
+                      <input type="checkbox" />
+                    </th>
+                    <th>Full Name <ChevronDown size={12} /></th>
+                    <th>Score <ChevronDown size={12} /></th>
+                    <th>Hiring Stage <ChevronDown size={12} /></th>
+                    <th>Applied Date <ChevronDown size={12} /></th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredApplicants.map((a) => (
+                    <tr key={a.id}>
+                      <td>
+                        <input type="checkbox" />
+                      </td>
+                      <td>
+                        <div className="aa-name-cell">
+                          <img src={a.avatar} alt={a.name} className="aa-avatar" />
+                          <span>{a.name}</span>
+                        </div>
+                      </td>
+                      <td>
+                        <div className="aa-score">
+                          <Star size={14} className="aa-score-star" />
+                          {a.rating.toFixed(1)}
+                        </div>
+                      </td>
+                      <td>
+                        <span className={`aa-stage ${stageStyles[a.stage] || ''}`}>{a.stage}</span>
+                      </td>
+                      <td className="aa-muted">{a.appliedDate}</td>
+                      <td>
+                        <div className="aa-action-cell">
+                          <button className="aa-see-app-btn" onClick={() => navigate(`/employer/applicants/${a.id}`)}>
+                            See Application
+                          </button>
+                          <button className="aa-more-btn">
+                            <MoreHorizontal size={18} />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                  {filteredApplicants.length === 0 && (
+                    <tr>
+                      <td colSpan={6} className="aa-empty">No applicants found</td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+
+              <div className="aa-pagination">
+                <div className="aa-pagination-left">
+                  <span>View</span>
+                  <select defaultValue="10">
+                    <option>10</option>
+                    <option>20</option>
+                    <option>50</option>
+                  </select>
+                  <span>Applicants per page</span>
+                </div>
+                <div className="aa-pagination-right">
+                  <button className="aa-page-arrow"><ChevronLeft size={16} /></button>
+                  <button className="aa-page-num aa-page-num--active">1</button>
+                  <button className="aa-page-num">2</button>
+                  <button className="aa-page-num">3</button>
+                  <button className="aa-page-arrow"><ChevronRight size={16} /></button>
+                </div>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </main>
     </div>
