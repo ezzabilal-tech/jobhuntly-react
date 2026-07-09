@@ -12,7 +12,7 @@ export default function Navbar({ active = 'home' }) {
   ];
 
   if (user) {
-    links.push({ key: 'dashboard', label: 'Dashboard', href: '/dashboard' });
+    links.push({ key: 'dashboard', label: 'Dashboard', href: user.role === 'company' ? '/employer/dashboard' : '/dashboard' });
   }
 
   return (
@@ -38,7 +38,7 @@ export default function Navbar({ active = 'home' }) {
         <div className="navbar__actions">
           {user ? (
             <div className="navbar__user">
-              <Link to="/dashboard" className="navbar__user-info" style={{ textDecoration: 'none' }}>
+              <Link to={user.role === 'company' ? '/employer/dashboard' : '/dashboard'} className="navbar__user-info" style={{ textDecoration: 'none' }}>
                 <img src={user.avatar} alt={user.name} className="navbar__avatar" />
                 <span className="navbar__username">{user.name}</span>
               </Link>

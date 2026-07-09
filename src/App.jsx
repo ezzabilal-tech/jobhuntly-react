@@ -9,12 +9,12 @@ import CompanyProfile from './pages/CompanyProfile';
 import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
+import EmployerDashboard from './pages/EmployerDashboard';
 import Messages from './pages/Messages';
 import MyApplications from './pages/MyApplications';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
 import HelpCenter from './pages/HelpCenter';
-import EmployerDashboard from './pages/EmployerDashboard';
 
 export default function App() {
   return (
@@ -30,12 +30,12 @@ export default function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/employer/dashboard" element={<EmployerDashboard />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/applications" element={<MyApplications />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/settings" element={<Settings />} />
           <Route path="/help" element={<HelpCenter />} />
-          <Route path="/employer/dashboard" element={<EmployerDashboard />} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
