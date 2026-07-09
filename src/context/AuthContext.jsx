@@ -36,6 +36,14 @@ export function AuthProvider({ children }) {
       return { success: false, error: 'Incorrect password. Please try again.' };
     }
 
+    if (role && foundUser.role !== role) {
+      const correctTab = foundUser.role === 'company' ? 'Company' : 'Job Seeker';
+      return {
+        success: false,
+        error: `This account is registered as a ${correctTab} account. Please switch to the "${correctTab}" tab to login.`,
+      };
+    }
+
     const sessionUser = {
       name: foundUser.name,
       email: foundUser.email,
@@ -45,8 +53,9 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem('jobhuntly_user', JSON.stringify(sessionUser));
     setUser(sessionUser);
-    // Navigate based on the role/tab selected at login time, not the saved account role
-    return { success: true, role };
+    // Navigate based on the account's real, saved role (now guaranteed to match
+    // the tab the user logged in from, since mismatches are rejected above).
+    return { success: true, role: sessionUser.role };
   };
 
   const signup = (name, email, password, role = 'seeker') => {
