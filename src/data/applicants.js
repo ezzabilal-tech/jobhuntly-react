@@ -350,6 +350,66 @@ export function getHiringProgress(applicant) {
   };
 }
 
+// Generates interview schedule data grouped by date for an applicant.
+export function getInterviewSchedule(applicant) {
+  if (applicant.interviewSchedule) return applicant.interviewSchedule;
+
+  return [
+    {
+      dateLabel: 'Tomorrow \u2022 10 July, 2021',
+      items: [
+        {
+          id: 'i1',
+          name: 'Kathryn Murphy',
+          avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
+          testType: 'Written Test',
+          time: '10:00 AM - 11:30 AM',
+          location: 'Silver Crysta Room, Nomad',
+        },
+      ],
+    },
+    {
+      dateLabel: '11 July, 2021',
+      items: [
+        {
+          id: 'i2',
+          name: 'Jenny Wilson',
+          avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&auto=format&fit=crop&q=80',
+          testType: 'Written Test 2',
+          time: '10:00 AM - 11:00 AM',
+          location: 'Silver Crysta Room, Nomad',
+        },
+      ],
+    },
+    {
+      dateLabel: '12 July, 2021',
+      items: [
+        {
+          id: 'i3',
+          name: 'Thad Eddings',
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+          testType: 'Skill Test',
+          time: '10:00 AM - 11:00 AM',
+          location: 'Silver Crysta Room, Nomad',
+        },
+      ],
+    },
+    {
+      dateLabel: '13 July, 2021',
+      items: [
+        {
+          id: 'i4',
+          name: 'Thad Eddings',
+          avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+          testType: 'Final Test',
+          time: '10:00 AM - 11:00 AM',
+          location: 'Silver Crysta Room, Nomad',
+        },
+      ],
+    },
+  ];
+}
+
 export const stageOrder = ['In Review', 'Shortlisted', 'Interview', 'Interviewed', 'Hired', 'Declined'];
 
 export const stageStyles = {

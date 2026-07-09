@@ -21,10 +21,12 @@ import {
   MessageCircle,
   MapPin,
   PlusCircle,
+  Pencil,
+  MoreHorizontal,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
-import { applicants, stageOrder, getResume, getHiringProgress, hiringStages } from '../data/applicants';
+import { applicants, stageOrder, getResume, getHiringProgress, hiringStages, getInterviewSchedule } from '../data/applicants';
 import './Dashboard.css';
 import './EmployerDashboard.css';
 import './ApplicantDetail.css';
@@ -40,6 +42,7 @@ export default function ApplicantDetail() {
   const applicant = applicants.find((a) => String(a.id) === String(id)) || applicants[0];
   const resume = getResume(applicant);
   const hiring = getHiringProgress(applicant);
+  const interviewSchedule = getInterviewSchedule(applicant);
 
   const displayName = user?.name || 'Maria Kelly';
   const displayEmail = user?.email || 'mariakelly@email.com';
@@ -479,9 +482,40 @@ export default function ApplicantDetail() {
               )}
 
               {activeTab === 'Interview Schedule' && (
-                <div className="ad-tab-content ad-tab-empty">
-                  <Calendar size={40} />
-                  <p>No interviews scheduled yet.</p>
+                <div className="ad-tab-content">
+                  <div className="ad-is-top-row">
+                    <h3 style={{ margin: 0 }}>Interview List</h3>
+                    <button className="ad-is-add-btn">
+                      <PlusCircle size={15} /> Add Schedule Interview
+                    </button>
+                  </div>
+
+                  <div className="ad-is-groups">
+                    {interviewSchedule.map((group) => (
+                      <div key={group.dateLabel} className="ad-is-group">
+                        <span className="ad-is-date-label">{group.dateLabel}</span>
+                        {group.items.map((item) => (
+                          <div key={item.id} className="ad-is-row">
+                            <img src={item.avatar} alt={item.name} className="ad-is-avatar" />
+                            <div className="ad-is-info">
+                              <h4>{item.name}</h4>
+                              <p>{item.testType}</p>
+                            </div>
+                            <div className="ad-is-time">
+                              <span>{item.time}</span>
+                              <p>{item.location}</p>
+                            </div>
+                            <button className="ad-is-feedback-btn">
+                              <Pencil size={13} /> Add Feedback
+                            </button>
+                            <button className="ad-is-more-btn">
+                              <MoreHorizontal size={18} />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
             </div>
