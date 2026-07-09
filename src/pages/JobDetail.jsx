@@ -90,8 +90,12 @@ export default function JobDetail() {
     }
   }, [user]);
 
-  // Parse company from route parameter (e.g. "nomad-social-media-assistant")
-  const companySlug = id ? id.split('-')[0] : '';
+  // Parse route parameter, e.g. "nomad-social-media-assistant"
+  // -> company slug "nomad", job title slug "social-media-assistant"
+  const parts = id ? id.split('-') : [];
+  const companySlug = parts[0] || '';
+  const titleSlug = parts.slice(1).join('-');
+
   const matchedCompany = companiesList.find(
     (c) => c.name.toLowerCase() === companySlug.toLowerCase()
   ) || {
@@ -101,6 +105,16 @@ export default function JobDetail() {
     location: 'Paris, France',
     description: 'Stripe is a technology company that builds economic infrastructure for the internet.',
   };
+
+  // Turn "social-media-assistant" into "Social Media Assistant"; falls back
+  // to a default title when the slug can't be parsed.
+  // (Named pageJobTitle to avoid clashing with the apply-form's jobTitle state.)
+  const pageJobTitle = titleSlug
+    ? titleSlug
+        .split('-')
+        .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+        .join(' ')
+    : 'Social Media Assistant';
 
   const handleApply = (e) => {
     e.preventDefault();
@@ -136,7 +150,7 @@ export default function JobDetail() {
 
       <div className="job-breadcrumb">
         <div className="container">
-          <Link to="/">Home</Link> / <Link to="/companies">Companies</Link> / <Link to={`/companies/${matchedCompany.name.toLowerCase()}`}>{matchedCompany.name}</Link> / Social Media Assistant
+          <Link to="/">Home</Link> / <Link to="/companies">Companies</Link> / <Link to={`/companies/${matchedCompany.name.toLowerCase()}`}>{matchedCompany.name}</Link> / {pageJobTitle}
         </div>
       </div>
 
@@ -146,7 +160,7 @@ export default function JobDetail() {
             <CompanyLogo size={26} color="#fff" />
           </div>
           <div className="job-header__info">
-            <h1>Social Media Assistant</h1>
+            <h1>{pageJobTitle}</h1>
             <p className="job-header__meta">
               {matchedCompany.name} &middot; {matchedCompany.location} &middot; Full-Time
             </p>
@@ -267,20 +281,19 @@ export default function JobDetail() {
       <section className="container about-company">
         <div className="about-company__text">
           <div className="about-company__header">
-            <div className="about-company__logo">
-              <SiStripe size={20} color="#fff" />
+            <div className="about-company__logo" style={{ background: matchedCompany.color }}>
+              <CompanyLogo size={20} color="#fff" />
             </div>
             <div>
-              <h3>Stripe</h3>
-              <Link to="/companies/stripe" className="about-company__link">
-                Read more about Stripe <ArrowRight size={14} />
+              <h3>{matchedCompany.name}</h3>
+              <Link to={`/companies/${matchedCompany.name.toLowerCase()}`} className="about-company__link">
+                Read more about {matchedCompany.name} <ArrowRight size={14} />
               </Link>
             </div>
           </div>
           <p>
-            Stripe is a technology company that builds economic infrastructure for the internet.
-            Businesses of every size&mdash;from new startups to public companies&mdash;use our software
-            to accept payments and manage their businesses online.
+            {matchedCompany.description ||
+              `${matchedCompany.name} is a technology company that builds economic infrastructure for the internet. Businesses of every size—from new startups to public companies—use our software to accept payments and manage their businesses online.`}
           </p>
         </div>
 
@@ -343,7 +356,7 @@ export default function JobDetail() {
                 <CompanyLogo size={22} color="#fff" />
               </div>
               <div className="modal-header__info">
-                <h3>Social Media Assistant</h3>
+                <h3>{pageJobTitle}</h3>
                 <p className="modal-header__meta">
                   {matchedCompany.name} &middot; {matchedCompany.location} &middot; Full-Time
                 </p>

@@ -20,10 +20,20 @@ import {
   SiUdacity,
   SiWebflow,
 } from 'react-icons/si';
+import { Link } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/global.css';
 import './Home.css';
+
+// Builds the same "company-job-title" slug format that JobDetail expects,
+// e.g. { company: 'Dropbox', title: 'Brand Designer' } -> 'dropbox-brand-designer'
+function slugify(job) {
+  return `${job.company}-${job.title}`
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+}
 
 const categories = [
   { name: 'Design', count: 235, icon: Palette },
@@ -205,7 +215,7 @@ export default function Home() {
 
         <div className="job-grid">
           {featuredJobs.map((job, i) => (
-            <div key={`${job.title}-${i}`} className="job-card">
+            <Link key={`${job.title}-${i}`} to={`/jobs/${slugify(job)}`} className="job-card">
               <div className="job-card__top">
                 <div className="job-card__logo" style={{ background: job.color }}>
                   {job.icon ? <job.icon size={20} color="#fff" /> : job.initial}
@@ -221,7 +231,7 @@ export default function Home() {
                   <span key={t} className="pill pill-blue">{t}</span>
                 ))}
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </section>
@@ -240,7 +250,7 @@ export default function Home() {
           {latestJobs.map((pair, i) => (
             <div key={i} className="latest-row">
               {pair.map((job, j) => (
-                <div key={j} className="latest-card">
+                <Link key={j} to={`/jobs/${slugify(job)}`} className="latest-card">
                   <div className="latest-card__logo" style={{ background: job.color }}>
                     {job.icon ? <job.icon size={18} color="#fff" /> : job.initial}
                   </div>
@@ -255,7 +265,7 @@ export default function Home() {
                       <span className="pill pill-blue">Design</span>
                     </div>
                   </div>
-                </div>
+                </Link>
               ))}
             </div>
           ))}
