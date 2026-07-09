@@ -45,7 +45,8 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem('jobhuntly_user', JSON.stringify(sessionUser));
     setUser(sessionUser);
-    return { success: true, role: sessionUser.role };
+    // Navigate based on the role/tab selected at login time, not the saved account role
+    return { success: true, role };
   };
 
   const signup = (name, email, password, role = 'seeker') => {
