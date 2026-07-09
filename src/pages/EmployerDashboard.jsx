@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   LayoutDashboard,
@@ -25,6 +25,12 @@ export default function EmployerDashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState('dashboard');
+
+  useEffect(() => {
+    if (user && user.role !== 'company') {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
   const [activeTab, setActiveTab] = useState('overview');
   const [activeFilter, setActiveFilter] = useState('week');
 

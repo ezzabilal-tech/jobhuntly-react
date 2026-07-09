@@ -42,7 +42,7 @@ export default function Profile() {
     'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80';
 
   const menuItems = [
-    { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+    { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: user?.role === 'company' ? '/employer/dashboard' : '/dashboard' },
     { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
     { key: 'applications', label: 'My Applications', icon: FileText, href: '/applications' },
     { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },

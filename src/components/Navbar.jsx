@@ -4,7 +4,9 @@ import './Navbar.css';
 
 export default function Navbar({ active = 'home' }) {
   const { user, logout } = useAuth();
-  
+
+  const dashboardHref = user?.role === 'company' ? '/employer/dashboard' : '/dashboard';
+
   const links = [
     { key: 'home', label: 'Home', href: '/' },
     { key: 'jobs', label: 'Find Jobs', href: '/jobs' },
@@ -12,7 +14,7 @@ export default function Navbar({ active = 'home' }) {
   ];
 
   if (user) {
-    links.push({ key: 'dashboard', label: 'Dashboard', href: user.role === 'company' ? '/employer/dashboard' : '/dashboard' });
+    links.push({ key: 'dashboard', label: 'Dashboard', href: dashboardHref });
   }
 
   return (
@@ -38,7 +40,7 @@ export default function Navbar({ active = 'home' }) {
         <div className="navbar__actions">
           {user ? (
             <div className="navbar__user">
-              <Link to={user.role === 'company' ? '/employer/dashboard' : '/dashboard'} className="navbar__user-info" style={{ textDecoration: 'none' }}>
+              <Link to={dashboardHref} className="navbar__user-info" style={{ textDecoration: 'none' }}>
                 <img src={user.avatar} alt={user.name} className="navbar__avatar" />
                 <span className="navbar__username">{user.name}</span>
               </Link>

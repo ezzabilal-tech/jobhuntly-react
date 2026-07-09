@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Calendar,
@@ -23,6 +23,12 @@ export default function Dashboard() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState('dashboard');
+
+  useEffect(() => {
+    if (user?.role === 'company') {
+      navigate('/employer/dashboard', { replace: true });
+    }
+  }, [user, navigate]);
 
   const handleLogout = () => {
     logout();
