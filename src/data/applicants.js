@@ -301,6 +301,55 @@ export const applicants = [
   },
 ];
 
+export const hiringStages = ['In-Review', 'Shortlisted', 'Interview', 'Hired / Declined'];
+
+const stageMap = {
+  'In Review': 'In-Review',
+  'Shortlisted': 'Shortlisted',
+  'Interview': 'Interview',
+  'Interviewed': 'Interview',
+  'Hired': 'Hired / Declined',
+  'Declined': 'Hired / Declined',
+};
+
+// Generates hiring-progress info (current stage, interview info, notes) for an applicant.
+export function getHiringProgress(applicant) {
+  if (applicant.hiringProgress) return applicant.hiringProgress;
+
+  return {
+    currentStage: stageMap[applicant.stage] || 'In-Review',
+    interviewDate: '10 - 13 July 2021',
+    interviewStatus: 'On Progress',
+    interviewLocation: {
+      name: 'Silver Crysta Room, Nomad Office',
+      address: '3517 W. Gray St. Utica,\nPennsylvania 57867',
+    },
+    assignedTo: [
+      'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&auto=format&fit=crop&q=80',
+      'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=100&auto=format&fit=crop&q=80',
+    ],
+    notes: [
+      {
+        id: 'n1',
+        author: 'Maria Kelly',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        date: '10 July, 2021 \u2022 11:30 AM',
+        text: 'Please, do an interview stage immediately. The design division needs more new employee now',
+        replies: 2,
+      },
+      {
+        id: 'n2',
+        author: 'Maria Kelly',
+        avatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80',
+        date: '10 July, 2021 \u2022 10:30 AM',
+        text: 'Please, do an interview stage immediately.',
+        replies: 0,
+      },
+    ],
+  };
+}
+
 export const stageOrder = ['In Review', 'Shortlisted', 'Interview', 'Interviewed', 'Hired', 'Declined'];
 
 export const stageStyles = {
@@ -311,3 +360,61 @@ export const stageStyles = {
   'Declined': 'aa-stage--declined',
   'Hired': 'aa-stage--hired',
 };
+
+// Generates a reasonable default resume based on the applicant's role/experience,
+// used when an applicant doesn't have a custom `resume` object of its own.
+export function getResume(applicant) {
+  if (applicant.resume) return applicant.resume;
+
+  const role = applicant.currentJob || applicant.role;
+
+  return {
+    experience: [
+      {
+        title: `Senior ${role}`,
+        company: 'Enterprise name',
+        period: 'Aug 2019 - Present, 1 year',
+        bullets: [
+          `Directly collaborated with CEO and Product team to prototype, design and deliver the UI and UX experience with a lean design process, research, design, test, and iterate.`,
+        ],
+      },
+      {
+        title: role,
+        company: 'Enterprise name',
+        period: 'Aug 2015 - Aug 2019, 4 years',
+        bullets: [
+          `Led the UI design with the accountability of the design system, collaborated with product and development teams on core projects to improve product interfaces and processes.`,
+        ],
+      },
+      {
+        title: `Junior ${role}`,
+        company: 'Enterprise name',
+        period: 'Sept 2013 - Jul 2015, 2 years',
+        bullets: [
+          `Designed mobile UI applications for a range of departments, working closely with product and engineering teams.`,
+        ],
+      },
+    ],
+    education: [
+      {
+        degree: applicant.qualification || 'Bachelors Degree',
+        school: 'School name',
+        period: '2008 - 2013, Bachelor',
+      },
+      {
+        degree: 'Communication Visuelle option Multimedia',
+        school: 'School name',
+        period: '2007 - 2008, Bachelor',
+      },
+    ],
+    industryKnowledge: ['User Interface', 'User Experience', 'Interaction Design', 'Wireframing', 'Rapid Prototyping', 'Design Research'],
+    toolsAndTechnologies: ['Figma', 'Sketch', 'Prototype', 'Framer', 'Invision', 'Abstract', 'Zeplin', 'Google Analytics', 'Amplitude', 'Fullstory'],
+    otherSkills: ['HTML', 'CSS', 'jQuery'],
+    languages: applicant.language ? applicant.language.split(', ') : ['English (native)'],
+    social: {
+      website: applicant.website,
+      linkedin: `linkedin.com/in/${(applicant.fullName || applicant.name).toLowerCase().replace(/\s+/g, '')}`,
+      dribbble: `dribbble.com/${(applicant.fullName || applicant.name).toLowerCase().replace(/\s+/g, '')}`,
+    },
+  };
+}

@@ -19,10 +19,12 @@ import {
   Twitter,
   Globe,
   MessageCircle,
+  MapPin,
+  PlusCircle,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
-import { applicants, stageOrder } from '../data/applicants';
+import { applicants, stageOrder, getResume, getHiringProgress, hiringStages } from '../data/applicants';
 import './Dashboard.css';
 import './EmployerDashboard.css';
 import './ApplicantDetail.css';
@@ -36,6 +38,8 @@ export default function ApplicantDetail() {
   const [activeTab, setActiveTab] = useState('Applicant Profile');
 
   const applicant = applicants.find((a) => String(a.id) === String(id)) || applicants[0];
+  const resume = getResume(applicant);
+  const hiring = getHiringProgress(applicant);
 
   const displayName = user?.name || 'Maria Kelly';
   const displayEmail = user?.email || 'mariakelly@email.com';
@@ -311,16 +315,166 @@ export default function ApplicantDetail() {
               )}
 
               {activeTab === 'Resume' && (
-                <div className="ad-tab-content ad-tab-empty">
-                  <FileText size={40} />
-                  <p>No resume uploaded yet.</p>
+                <div className="ad-resume-wrap">
+                  <div className="ad-resume-sheet">
+                    <div className="ad-resume-header">
+                      <div>
+                        <h2>{applicant.fullName || applicant.name}</h2>
+                        <p>{applicant.role}</p>
+                      </div>
+                      <img src={applicant.avatar} alt={applicant.name} className="ad-resume-avatar" />
+                    </div>
+
+                    <div className="ad-resume-body">
+                      <div className="ad-resume-main">
+                        <h4 className="ad-resume-section-title">Experience</h4>
+                        {resume.experience.map((exp, i) => (
+                          <div key={i} className="ad-resume-exp">
+                            <h5>{exp.title}</h5>
+                            <p className="ad-resume-exp-meta">{exp.company}</p>
+                            <p className="ad-resume-exp-period">{exp.period}</p>
+                            <ul>
+                              {exp.bullets.map((b, j) => (
+                                <li key={j}>{b}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        ))}
+
+                        <h4 className="ad-resume-section-title">Education</h4>
+                        {resume.education.map((ed, i) => (
+                          <div key={i} className="ad-resume-exp">
+                            <h5>{ed.degree}</h5>
+                            <p className="ad-resume-exp-meta">{ed.school}</p>
+                            <p className="ad-resume-exp-period">{ed.period}</p>
+                          </div>
+                        ))}
+                      </div>
+
+                      <div className="ad-resume-side">
+                        <div className="ad-resume-side-block">
+                          <span className="ad-resume-side-label">Email</span>
+                          <span className="ad-resume-side-value">{applicant.email}</span>
+                        </div>
+                        <div className="ad-resume-side-block">
+                          <span className="ad-resume-side-label">Phone</span>
+                          <span className="ad-resume-side-value">{applicant.phone}</span>
+                        </div>
+
+                        <h4 className="ad-resume-section-title">Industry Knowledge</h4>
+                        <ul className="ad-resume-plain-list">
+                          {resume.industryKnowledge.map((s) => <li key={s}>{s}</li>)}
+                        </ul>
+
+                        <h4 className="ad-resume-section-title">Tools &amp; Technologies</h4>
+                        <ul className="ad-resume-plain-list">
+                          {resume.toolsAndTechnologies.map((s) => <li key={s}>{s}</li>)}
+                        </ul>
+
+                        <h4 className="ad-resume-section-title">Other Skills</h4>
+                        <p className="ad-resume-inline-list">{resume.otherSkills.join(', ')}</p>
+
+                        <h4 className="ad-resume-section-title">Languages</h4>
+                        <p className="ad-resume-inline-list">{resume.languages.join(', ')}</p>
+
+                        <h4 className="ad-resume-section-title">Social</h4>
+                        <div className="ad-resume-side-block">
+                          <span className="ad-resume-side-value ad-resume-link">{resume.social.website}</span>
+                        </div>
+                        <div className="ad-resume-side-block">
+                          <span className="ad-resume-side-value ad-resume-link">{resume.social.linkedin}</span>
+                        </div>
+                        <div className="ad-resume-side-block">
+                          <span className="ad-resume-side-value ad-resume-link">{resume.social.dribbble}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               )}
 
               {activeTab === 'Hiring Progress' && (
-                <div className="ad-tab-content ad-tab-empty">
-                  <Users size={40} />
-                  <p>Hiring progress details coming soon.</p>
+                <div className="ad-tab-content">
+                  <div className="ad-hp-top-row">
+                    <h3 style={{ margin: 0 }}>Current Stage</h3>
+                    <button className="ad-hp-rating-btn">
+                      Give Rating <ChevronDown size={14} />
+                    </button>
+                  </div>
+
+                  <div className="ad-hp-pipeline">
+                    {hiringStages.map((stage) => (
+                      <div
+                        key={stage}
+                        className={`ad-hp-stage-chip ${
+                          stage === hiring.currentStage ? 'ad-hp-stage-chip--active' : ''
+                        }`}
+                      >
+                        {stage}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="ad-divider" />
+
+                  <h3>Stage Info</h3>
+                  <div className="ad-info-grid">
+                    <div>
+                      <span className="ad-info-label">Interview Date</span>
+                      <span className="ad-info-value">{hiring.interviewDate}</span>
+                    </div>
+                    <div>
+                      <span className="ad-info-label">Interview Status</span>
+                      <span className="ad-hp-status-pill">{hiring.interviewStatus}</span>
+                    </div>
+                    <div>
+                      <span className="ad-info-label">Interview Location</span>
+                      <span className="ad-info-value">
+                        {hiring.interviewLocation.name}
+                        <br />
+                        <span className="ad-info-multiline ad-info-muted">
+                          {hiring.interviewLocation.address}
+                        </span>
+                      </span>
+                    </div>
+                    <div>
+                      <span className="ad-info-label">Assigned to</span>
+                      <div className="ad-hp-avatars">
+                        {hiring.assignedTo.map((src, i) => (
+                          <img key={i} src={src} alt="assignee" className="ad-hp-avatar" />
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+
+                  <button className="ad-hp-next-step-btn">Move To Next Step</button>
+
+                  <div className="ad-divider" />
+
+                  <div className="ad-hp-notes-top">
+                    <h3 style={{ margin: 0 }}>Notes</h3>
+                    <button className="ad-hp-add-notes-btn">
+                      <PlusCircle size={15} /> Add Notes
+                    </button>
+                  </div>
+
+                  <div className="ad-hp-notes-list">
+                    {hiring.notes.map((note) => (
+                      <div key={note.id} className="ad-hp-note">
+                        <img src={note.avatar} alt={note.author} className="ad-hp-note-avatar" />
+                        <div className="ad-hp-note-body">
+                          <div className="ad-hp-note-head">
+                            <span className="ad-hp-note-author">{note.author}</span>
+                            <span className="ad-hp-note-date">{note.date}</span>
+                          </div>
+                          <p className="ad-hp-note-text">{note.text}</p>
+                          {note.replies > 0 && (
+                            <a href="#" className="ad-hp-note-replies">{note.replies} Replies</a>
+                          )}
+                        </div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
               )}
 
