@@ -19,6 +19,7 @@ import {
   Users,
   Bell,
   Plus,
+  Calendar,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
