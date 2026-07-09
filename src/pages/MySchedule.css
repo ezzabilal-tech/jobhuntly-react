@@ -1,0 +1,489 @@
+.ms-scroll {
+  padding: 20px 32px 40px;
+  overflow-y: auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+/* Toolbar */
+.ms-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+.ms-toolbar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ms-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0;
+}
+
+.ms-today-btn {
+  padding: 8px 16px;
+  border: 1px solid #d6ddeb;
+  border-radius: 8px;
+  background: #fff;
+  color: #25324b;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-today-btn:hover {
+  background: #f8f8fd;
+}
+
+.ms-toolbar-center {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ms-nav-arrow {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  color: #7c8493;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 6px;
+}
+
+.ms-nav-arrow:hover {
+  background: #f0f1f4;
+}
+
+.ms-month-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: #25324b;
+  letter-spacing: 0.5px;
+}
+
+.ms-toolbar-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.ms-range-btn {
+  border: none;
+  background: transparent;
+  color: #7c8493;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.ms-range-btn--active {
+  color: #4640de;
+  font-weight: 700;
+  border-bottom: 2px solid #4640de;
+}
+
+/* Body layout */
+.ms-body {
+  display: flex;
+  gap: 24px;
+  flex: 1;
+  min-height: 0;
+}
+
+/* Side panel */
+.ms-side-panel {
+  width: 260px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ms-create-event-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid #d6ddeb;
+  border-radius: 10px;
+  background: #fff;
+  color: #4640de;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-create-event-btn:hover {
+  background: #f8f8fd;
+}
+
+.ms-mini-cal {
+  border: 1px solid #d6ddeb;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.ms-mini-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 700;
+  color: #25324b;
+  margin-bottom: 12px;
+  letter-spacing: 0.5px;
+}
+
+.ms-mini-cal-head div {
+  display: flex;
+  gap: 4px;
+}
+
+.ms-mini-cal-arrow {
+  width: 20px;
+  height: 20px;
+  border: none;
+  background: transparent;
+  color: #7c8493;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.ms-mini-cal-arrow:hover {
+  background: #f0f1f4;
+}
+
+.ms-mini-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+}
+
+.ms-mini-cal-grid--head span {
+  font-size: 11px;
+  color: #a8adb7;
+  padding-bottom: 8px;
+}
+
+.ms-mini-cal-day {
+  border: none;
+  background: transparent;
+  font-size: 12px;
+  color: #25324b;
+  padding: 6px 0;
+  cursor: pointer;
+  border-radius: 50%;
+  width: 28px;
+  height: 28px;
+  margin: 1px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ms-mini-cal-day:hover {
+  background: #f0f1f4;
+}
+
+.ms-mini-cal-day--muted {
+  color: #d6ddeb;
+  cursor: default;
+}
+
+.ms-mini-cal-day--muted:hover {
+  background: transparent;
+}
+
+.ms-mini-cal-day--selected {
+  background: #4640de;
+  color: #fff;
+  font-weight: 700;
+}
+
+.ms-mini-cal-day--selected:hover {
+  background: #4640de;
+}
+
+.ms-categories {
+  border: 1px solid #d6ddeb;
+  border-radius: 10px;
+  padding: 14px;
+}
+
+.ms-categories-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  color: #25324b;
+  margin-bottom: 14px;
+}
+
+.ms-add-category-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  border: none;
+  background: transparent;
+  color: #4640de;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ms-category-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ms-category-checkbox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+  color: #515b6f;
+  cursor: pointer;
+  position: relative;
+}
+
+.ms-category-checkbox input {
+  position: absolute;
+  opacity: 0;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  margin: 0;
+}
+
+.ms-checkbox-visual {
+  width: 18px;
+  height: 18px;
+  border-radius: 5px;
+  border: 1.5px solid #d6ddeb;
+  flex-shrink: 0;
+  display: inline-block;
+  position: relative;
+}
+
+.ms-checkbox-visual::after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 1px;
+  width: 5px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  opacity: 0;
+}
+
+.ms-category-checkbox input:checked + .ms-checkbox-visual::after {
+  opacity: 1;
+}
+
+/* Calendar grid */
+.ms-calendar-wrap {
+  flex: 1;
+  min-width: 0;
+  border: 1px solid #d6ddeb;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.ms-week-header {
+  display: grid;
+  grid-template-columns: 70px repeat(7, 1fr);
+  border-bottom: 1px solid #d6ddeb;
+}
+
+.ms-time-gutter-spacer {
+  border-right: 1px solid #eef1f5;
+}
+
+.ms-week-header-cell {
+  text-align: center;
+  padding: 10px 4px;
+  border-right: 1px solid #eef1f5;
+  position: relative;
+}
+
+.ms-week-header-cell:last-child {
+  border-right: none;
+}
+
+.ms-week-header-cell--holiday {
+  background: #fff3f0;
+}
+
+.ms-week-header-label {
+  display: block;
+  font-size: 11px;
+  color: #a8adb7;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.ms-week-header-date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  font-size: 14px;
+  font-weight: 700;
+  color: #25324b;
+}
+
+.ms-week-header-date--active {
+  background: #4640de;
+  color: #fff;
+}
+
+.ms-holiday-pill {
+  display: block;
+  margin-top: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff;
+  background: #ff6550;
+  border-radius: 4px;
+  padding: 1px 6px;
+}
+
+.ms-week-grid {
+  display: grid;
+  grid-template-columns: 70px repeat(7, 1fr);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 460px;
+}
+
+.ms-time-gutter {
+  border-right: 1px solid #eef1f5;
+}
+
+.ms-time-label {
+  height: 56px;
+  font-size: 11px;
+  color: #a8adb7;
+  padding: 4px 8px 0 0;
+  text-align: right;
+  box-sizing: border-box;
+  border-bottom: 1px solid transparent;
+}
+
+.ms-day-col {
+  position: relative;
+  border-right: 1px solid #eef1f5;
+}
+
+.ms-day-col:last-child {
+  border-right: none;
+}
+
+.ms-day-col--holiday {
+  background: #fff8f6;
+}
+
+.ms-day-col--selected {
+  background: #f8f8fd;
+}
+
+.ms-hour-cell {
+  height: 56px;
+  border-bottom: 1px solid #eef1f5;
+  box-sizing: border-box;
+}
+
+.ms-event-card {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  border-radius: 8px;
+  padding: 8px 10px;
+  color: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.ms-event-title {
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+.ms-event-time {
+  font-size: 11px;
+  opacity: 0.85;
+}
+
+.ms-event-avatars {
+  display: flex;
+  margin-top: 6px;
+}
+
+.ms-event-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid #fff;
+  object-fit: cover;
+  margin-left: -6px;
+}
+
+.ms-event-avatar:first-child {
+  margin-left: 0;
+}
+
+@media (max-width: 1100px) {
+  .ms-body {
+    flex-direction: column;
+  }
+  .ms-side-panel {
+    width: 100%;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
+  .ms-mini-cal,
+  .ms-categories {
+    flex: 1 1 260px;
+  }
+  .ms-calendar-wrap {
+    overflow-x: auto;
+  }
+  .ms-week-header,
+  .ms-week-grid {
+    min-width: 680px;
+  }
+}
