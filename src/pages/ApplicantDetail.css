@@ -1,0 +1,393 @@
+.ad-scroll {
+  padding: 24px 40px 60px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+.ad-top-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.ad-back-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #d6ddeb;
+  background: #fff;
+  color: #25324b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.ad-back-btn:hover {
+  background: #f8f8fd;
+}
+
+.ad-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0;
+  flex: 1;
+}
+
+.ad-more-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: 1px solid #4640de;
+  background: #fff;
+  color: #4640de;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ad-more-action-btn:hover {
+  background: #f8f8fd;
+}
+
+.ad-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+/* Left profile card */
+.ad-profile-card {
+  background: #fff;
+  border: 1px solid #d6ddeb;
+  border-radius: 12px;
+  padding: 24px;
+}
+
+.ad-profile-head {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 20px;
+}
+
+.ad-profile-avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.ad-profile-head h2 {
+  font-size: 17px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0 0 2px;
+}
+
+.ad-profile-head p {
+  font-size: 13px;
+  color: #7c8493;
+  margin: 0 0 6px;
+}
+
+.ad-profile-rating {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #25324b;
+}
+
+.ad-star {
+  color: #ffb836;
+  fill: #ffb836;
+}
+
+.ad-applied-job-box {
+  background: #f8f8fd;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+}
+
+.ad-applied-job-top {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #7c8493;
+  margin-bottom: 8px;
+}
+
+.ad-applied-job-box h4 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #25324b;
+  margin: 0 0 4px;
+}
+
+.ad-applied-job-box p {
+  font-size: 12px;
+  color: #7c8493;
+  margin: 0;
+}
+
+.ad-stage-block {
+  margin-bottom: 20px;
+}
+
+.ad-stage-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  margin-bottom: 8px;
+}
+
+.ad-stage-top > span:first-child {
+  color: #7c8493;
+}
+
+.ad-stage-current {
+  color: #4640de;
+  font-weight: 600;
+}
+
+.ad-stage-bar {
+  height: 6px;
+  background: #eef1f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.ad-stage-bar-fill {
+  height: 100%;
+  background: #4640de;
+  border-radius: 4px;
+  transition: width 0.3s ease;
+}
+
+.ad-profile-actions {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.ad-schedule-btn {
+  flex: 1;
+  padding: 11px;
+  border-radius: 8px;
+  border: 1px solid #4640de;
+  background: #fff;
+  color: #4640de;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ad-schedule-btn:hover {
+  background: #f8f8fd;
+}
+
+.ad-message-btn {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  border: 1px solid #d6ddeb;
+  background: #fff;
+  color: #25324b;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.ad-message-btn:hover {
+  background: #f8f8fd;
+}
+
+.ad-contact-block h3 {
+  font-size: 15px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0 0 16px;
+}
+
+.ad-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 16px;
+  color: #7c8493;
+}
+
+.ad-contact-item:last-child {
+  margin-bottom: 0;
+}
+
+.ad-contact-label {
+  display: block;
+  font-size: 11px;
+  color: #7c8493;
+  margin-bottom: 2px;
+}
+
+.ad-contact-value {
+  display: block;
+  font-size: 13px;
+  color: #25324b;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.ad-contact-link {
+  color: #4640de;
+}
+
+/* Right content card */
+.ad-content-card {
+  background: #fff;
+  border: 1px solid #d6ddeb;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.ad-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 0 24px;
+  border-bottom: 1px solid #d6ddeb;
+  overflow-x: auto;
+}
+
+.ad-tab {
+  padding: 18px 4px;
+  border: none;
+  background: transparent;
+  color: #7c8493;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  border-bottom: 2px solid transparent;
+  margin-right: 24px;
+}
+
+.ad-tab--active {
+  color: #4640de;
+  font-weight: 700;
+  border-bottom-color: #4640de;
+}
+
+.ad-tab-content {
+  padding: 24px;
+}
+
+.ad-tab-content h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 0 0 20px;
+}
+
+.ad-info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px 24px;
+}
+
+.ad-info-full {
+  grid-column: 1 / -1;
+}
+
+.ad-info-label {
+  display: block;
+  font-size: 12px;
+  color: #7c8493;
+  margin-bottom: 6px;
+}
+
+.ad-info-value {
+  display: block;
+  font-size: 14px;
+  color: #25324b;
+  font-weight: 600;
+}
+
+.ad-info-multiline {
+  white-space: pre-line;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.ad-info-muted {
+  color: #7c8493;
+  font-weight: 400;
+}
+
+.ad-divider {
+  height: 1px;
+  background: #eef1f5;
+  margin: 24px 0;
+}
+
+.ad-info-block {
+  margin-bottom: 4px;
+}
+
+.ad-about-para {
+  font-size: 14px;
+  line-height: 1.8;
+  color: #515b6f;
+  margin: 8px 0 0;
+}
+
+.ad-skill-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.ad-skill-tag {
+  background: #eee9ff;
+  color: #4640de;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 5px 12px;
+  border-radius: 20px;
+}
+
+.ad-tab-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 60px 24px;
+  color: #a8adb7;
+}
+
+.ad-tab-empty p {
+  font-size: 14px;
+  margin: 0;
+}
+
+@media (max-width: 900px) {
+  .ad-scroll {
+    padding: 20px;
+  }
+  .ad-layout {
+    grid-template-columns: 1fr;
+  }
+  .ad-info-grid {
+    grid-template-columns: 1fr;
+  }
+}

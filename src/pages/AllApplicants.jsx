@@ -20,111 +20,10 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
+import { applicants, stageStyles } from '../data/applicants';
 import './Dashboard.css';
 import './EmployerDashboard.css';
 import './AllApplicants.css';
-
-const applicants = [
-  {
-    id: 1,
-    name: 'Jake Gyll',
-    avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=150&auto=format&fit=crop&q=80',
-    rating: 4.0,
-    stage: 'In Review',
-    appliedDate: '13 July, 2021',
-    jobRole: 'Designer',
-  },
-  {
-    id: 2,
-    name: 'Guy Hawkins',
-    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80',
-    rating: 4.0,
-    stage: 'Interview',
-    appliedDate: '13 July, 2021',
-    jobRole: 'JavaScript Dev',
-  },
-  {
-    id: 3,
-    name: 'Cyndy Lillibridge',
-    avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&auto=format&fit=crop&q=80',
-    rating: 4.5,
-    stage: 'Shortlisted',
-    appliedDate: '12 July, 2021',
-    jobRole: 'Golang Dev',
-  },
-  {
-    id: 4,
-    name: 'Rodolfo Goode',
-    avatar: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=150&auto=format&fit=crop&q=80',
-    rating: 3.0,
-    stage: 'Declined',
-    appliedDate: '11 July, 2021',
-    jobRole: 'NET Dev',
-  },
-  {
-    id: 5,
-    name: 'Leif Floyd',
-    avatar: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&auto=format&fit=crop&q=80',
-    rating: 4.8,
-    stage: 'Hired',
-    appliedDate: '11 July, 2021',
-    jobRole: 'Graphic Design',
-  },
-  {
-    id: 6,
-    name: 'Jenny Wilson',
-    avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=150&auto=format&fit=crop&q=80',
-    rating: 4.0,
-    stage: 'In Review',
-    appliedDate: '9 July, 2021',
-    jobRole: 'Designer',
-  },
-  {
-    id: 7,
-    name: 'Jerome Bell',
-    avatar: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=150&auto=format&fit=crop&q=80',
-    rating: 4.0,
-    stage: 'Interviewed',
-    appliedDate: '5 July, 2021',
-    jobRole: 'Designer',
-  },
-  {
-    id: 8,
-    name: 'Eleanor Pena',
-    avatar: 'https://images.unsplash.com/photo-1554151228-14d9def656e4?w=150&auto=format&fit=crop&q=80',
-    rating: 3.6,
-    stage: 'Declined',
-    appliedDate: '3 July, 2021',
-    jobRole: 'Designer',
-  },
-  {
-    id: 9,
-    name: 'Darrell Steward',
-    avatar: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=150&auto=format&fit=crop&q=80',
-    rating: 4.4,
-    stage: 'Shortlisted',
-    appliedDate: '2 July, 2021',
-    jobRole: 'Designer',
-  },
-  {
-    id: 10,
-    name: 'Floyd Miles',
-    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&auto=format&fit=crop&q=80',
-    rating: 4.0,
-    stage: 'Interviewed',
-    appliedDate: '1 July, 2021',
-    jobRole: 'Designer',
-  },
-];
-
-const stageStyles = {
-  'In Review': 'aa-stage--review',
-  'Interview': 'aa-stage--interview',
-  'Interviewed': 'aa-stage--interview',
-  'Shortlisted': 'aa-stage--shortlisted',
-  'Declined': 'aa-stage--declined',
-  'Hired': 'aa-stage--hired',
-};
 
 export default function AllApplicants() {
   const { user, logout } = useAuth();
@@ -309,7 +208,9 @@ export default function AllApplicants() {
                     <td className="aa-muted">{a.jobRole}</td>
                     <td>
                       <div className="aa-action-cell">
-                        <button className="aa-see-app-btn">See Application</button>
+                        <button className="aa-see-app-btn" onClick={() => navigate(`/employer/applicants/${a.id}`)}>
+                          See Application
+                        </button>
                         <button className="aa-more-btn">
                           <MoreHorizontal size={18} />
                         </button>
