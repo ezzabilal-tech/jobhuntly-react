@@ -199,7 +199,7 @@ export default function EmployerDashboard() {
             </div>
           </div>
           <div className="dashboard-header-right">
-            <button className="btn-post-job-header" onClick={(e) => e.preventDefault()}>
+            <button className="btn-post-job-header" onClick={() => navigate('/employer/post-job')}>
               <Plus size={16} />
               Post a job
             </button>

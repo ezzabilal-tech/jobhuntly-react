@@ -15,6 +15,7 @@ import AllApplicants from './pages/AllApplicants';
 import ApplicantDetail from './pages/ApplicantDetail';
 import JobListing from './pages/JobListing';
 import JobApplicants from './pages/JobApplicants';
+import PostJob from './pages/PostJob';
 import MySchedule from './pages/MySchedule';
 import Messages from './pages/Messages';
 import MyApplications from './pages/MyApplications';
@@ -42,6 +43,7 @@ export default function App() {
           <Route path="/employer/applicants/:id" element={<ApplicantDetail />} />
           <Route path="/employer/job-listing" element={<JobListing />} />
           <Route path="/employer/job-listing/:id/applicants" element={<JobApplicants />} />
+          <Route path="/employer/post-job" element={<PostJob />} />
           <Route path="/employer/my-schedule" element={<MySchedule />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/applications" element={<MyApplications />} />
