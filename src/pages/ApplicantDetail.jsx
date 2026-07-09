@@ -65,7 +65,7 @@ export default function ApplicantDetail() {
   ];
 
   const settingItems = [
-    { key: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
+    { key: 'settings', label: 'Settings', icon: Settings, href: '/employer/settings' },
     { key: 'help', label: 'Help Center', icon: HelpCircle, href: '/help' },
   ];
 
