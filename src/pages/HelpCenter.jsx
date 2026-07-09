@@ -14,10 +14,14 @@ import {
   ThumbsUp,
   ThumbsDown,
   MessageCircle,
+  Users,
+  Calendar,
+  Plus,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
 import './HelpCenter.css';
+import './EmployerDashboard.css';
 
 const CATEGORIES = ['Getting Started', 'My Profile', 'Applying for a job', 'Job Search Tips', 'Job Alerts'];
 
@@ -62,17 +66,28 @@ export default function HelpCenter() {
     user?.avatar ||
     'https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80';
 
-  const menuItems = [
-    { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: dashboardHref },
-    { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
-    { key: 'applications', label: 'My Applications', icon: FileText, href: '/applications' },
-    { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },
-    { key: 'browse-companies', label: 'Browse Companies', icon: Building, href: '/companies' },
-    { key: 'profile', label: 'My Public Profile', icon: User, href: '/profile' },
-  ];
+  const isCompany = user?.role === 'company';
+
+  const menuItems = isCompany
+    ? [
+        { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/employer/dashboard' },
+        { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
+        { key: 'company-profile', label: 'Company Profile', icon: Building, href: '/employer/company-profile' },
+        { key: 'all-applicants', label: 'All Applicants', icon: Users, href: '/employer/applicants' },
+        { key: 'job-listing', label: 'Job Listing', icon: FileText, href: '/employer/job-listing' },
+        { key: 'my-schedule', label: 'My Schedule', icon: Calendar, href: '/employer/my-schedule' },
+      ]
+    : [
+        { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: dashboardHref },
+        { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
+        { key: 'applications', label: 'My Applications', icon: FileText, href: '/applications' },
+        { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },
+        { key: 'browse-companies', label: 'Browse Companies', icon: Building, href: '/companies' },
+        { key: 'profile', label: 'My Public Profile', icon: User, href: '/profile' },
+      ];
 
   const settingItems = [
-    { key: 'settings', label: 'Settings', icon: Settings, href: '/settings' },
+    { key: 'settings', label: 'Settings', icon: Settings, href: isCompany ? '/employer/settings' : '/settings' },
     { key: 'help', label: 'Help Center', icon: HelpCircle, href: '/help' },
   ];
 
@@ -135,15 +150,36 @@ export default function HelpCenter() {
         {/* Header */}
         <header className="dashboard-header">
           <div className="dashboard-header-left">
-            <h1>Help Center</h1>
+            {isCompany ? (
+              <div className="company-selector-dropdown">
+                <div className="company-dropdown-logo">N</div>
+                <div className="company-dropdown-info">
+                  <span className="company-dropdown-sub">Company</span>
+                  <span className="company-dropdown-name">
+                    Nomad <ChevronDown size={14} />
+                  </span>
+                </div>
+              </div>
+            ) : (
+              <h1>Help Center</h1>
+            )}
           </div>
           <div className="dashboard-header-right">
-            <Link to="/" className="btn-back-home">
-              Back to homepage
-            </Link>
+            {isCompany ? (
+              <button className="btn-post-job-header" onClick={() => navigate('/employer/post-job')}>
+                <Plus size={16} />
+                Post a job
+              </button>
+            ) : (
+              <Link to="/" className="btn-back-home">
+                Back to homepage
+              </Link>
+            )}
             <NotificationPanel />
           </div>
         </header>
+
+        {isCompany && <h1 className="help-page-title">Help Center</h1>}
 
         <div className="help-layout">
           {/* Left column: search + categories */}

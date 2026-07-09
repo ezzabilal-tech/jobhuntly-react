@@ -234,3 +234,10 @@
     align-items: flex-start;
   }
 }
+
+.help-page-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #25324b;
+  margin: 12px 0 24px;
+}
