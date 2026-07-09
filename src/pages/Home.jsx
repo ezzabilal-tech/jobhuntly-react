@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import {
   Search,
   MapPin,
@@ -20,7 +21,7 @@ import {
   SiUdacity,
   SiWebflow,
 } from 'react-icons/si';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/global.css';
@@ -78,7 +79,36 @@ const latestJobs = [
 
 const companies = ['Vodafone', 'Intel', 'Tesla', 'AMD', 'Talkit'];
 
+const popularSearches = ['UI Designer', 'UX Researcher', 'Android', 'Admin'];
+
 export default function Home() {
+  const navigate = useNavigate();
+  const [keyword, setKeyword] = useState('');
+  const [location, setLocation] = useState('');
+
+  function goToJobs(overrides = {}) {
+    const finalKeyword = overrides.keyword ?? keyword;
+    const finalLocation = overrides.location ?? location;
+
+    const params = new URLSearchParams();
+    if (finalKeyword.trim()) params.set('title', finalKeyword.trim());
+    if (finalLocation.trim()) params.set('location', finalLocation.trim());
+
+    const query = params.toString();
+    navigate(query ? `/jobs?${query}` : '/jobs');
+  }
+
+  function handleSearchSubmit(e) {
+    e.preventDefault();
+    goToJobs();
+  }
+
+  function handlePopularClick(e, term) {
+    e.preventDefault();
+    setKeyword(term);
+    goToJobs({ keyword: term });
+  }
+
   return (
     <>
       <Navbar active="home" />
@@ -98,25 +128,38 @@ export default function Home() {
             Great platform for the job seeker that searching for new career heights and passionate about startups.
           </p>
 
-          <div className="hero__search">
+          <form className="hero__search" onSubmit={handleSearchSubmit} role="search">
             <div className="hero__search-field">
               <Search size={20} className="hero__search-icon" />
-              <input type="text" placeholder="Job title or keyword" />
+              <input
+                type="text"
+                placeholder="Job title or keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                aria-label="Job title or keyword"
+              />
             </div>
             <div className="hero__search-divider" />
             <div className="hero__search-field">
               <MapPin size={20} className="hero__search-icon" />
-              <input type="text" placeholder="Florence, Italy" />
+              <input
+                type="text"
+                placeholder="Florence, Italy"
+                value={location}
+                onChange={(e) => setLocation(e.target.value)}
+                aria-label="Location"
+              />
             </div>
-            <button className="btn btn-primary hero__search-btn">Search my job</button>
-          </div>
+            <button type="submit" className="btn btn-primary hero__search-btn">Search my job</button>
+          </form>
 
           <div className="hero__popular">
             <span>Popular :</span>
-            <a href="#">UI Designer</a>
-            <a href="#">UX Researcher</a>
-            <a href="#">Android</a>
-            <a href="#">Admin</a>
+            {popularSearches.map((term) => (
+              <a key={term} href="#" onClick={(e) => handlePopularClick(e, term)}>
+                {term}
+              </a>
+            ))}
           </div>
         </div>
 
