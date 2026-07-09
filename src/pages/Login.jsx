@@ -14,16 +14,16 @@ export default function Login() {
   const [rememberMe, setRememberMe] = useState(true);
   const [error, setError] = useState('');
 
-  // Extract redirect URL from location state, default to dashboard '/dashboard'
-  const from = location.state?.from?.pathname || '/dashboard';
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setError('');
 
     const res = login(email, password, tab);
     if (res.success) {
-      navigate(from, { replace: true });
+      const destination =
+        location.state?.from?.pathname ||
+        (res.role === 'company' ? '/employer/dashboard' : '/dashboard');
+      navigate(destination, { replace: true });
     } else {
       setError(res.error);
     }
@@ -38,7 +38,10 @@ export default function Login() {
     }
     const res = login(email, password, tab);
     if (res.success) {
-      navigate(from, { replace: true });
+      const destination =
+        location.state?.from?.pathname ||
+        (res.role === 'company' ? '/employer/dashboard' : '/dashboard');
+      navigate(destination, { replace: true });
     } else {
       setError(res.error);
     }

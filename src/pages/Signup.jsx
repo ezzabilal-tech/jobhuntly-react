@@ -19,7 +19,7 @@ export default function Signup() {
 
     const res = signup(name, email, password, tab);
     if (res.success) {
-      navigate('/dashboard');
+      navigate(res.role === 'company' ? '/employer/dashboard' : '/dashboard');
     } else {
       setError(res.error);
     }
@@ -34,7 +34,7 @@ export default function Signup() {
     }
     const res = signup(name, email, password || 'googlepassword', tab);
     if (res.success) {
-      navigate('/dashboard');
+      navigate(res.role === 'company' ? '/employer/dashboard' : '/dashboard');
     } else {
       setError(res.error);
     }

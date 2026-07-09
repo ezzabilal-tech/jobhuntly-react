@@ -45,7 +45,7 @@ export function AuthProvider({ children }) {
 
     localStorage.setItem('jobhuntly_user', JSON.stringify(sessionUser));
     setUser(sessionUser);
-    return { success: true };
+    return { success: true, role: sessionUser.role };
   };
 
   const signup = (name, email, password, role = 'seeker') => {
@@ -88,7 +88,7 @@ export function AuthProvider({ children }) {
     };
     localStorage.setItem('jobhuntly_user', JSON.stringify(sessionUser));
     setUser(sessionUser);
-    return { success: true };
+    return { success: true, role: sessionUser.role };
   };
 
   const logout = () => {
