@@ -33,23 +33,28 @@ const filterGroups = [
   { title: 'Salary Range', options: ['$700 - $1000', '$100 - $1500', '$1500 - $2000', '$3000 or above'] },
 ];
 
+const popularSearches = ['UI Designer', 'UX Researcher', 'Android', 'Admin'];
+
 export default function FindJobs() {
   const { user } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const [appliedJobs, setAppliedJobs] = useState({});
 
   // Categories pre-checked/filtered from the ?category= query param (e.g. from Home page cards)
   const [selectedCategories, setSelectedCategories] = useState([]);
 
+  // Search bar state, initialized from ?title= and ?location= (e.g. from Home page search)
+  const [keyword, setKeyword] = useState(searchParams.get('title') || '');
+  const [locationQuery, setLocationQuery] = useState(searchParams.get('location') || '');
+
   useEffect(() => {
     const category = searchParams.get('category');
-    if (category) {
-      setSelectedCategories([category]);
-    } else {
-      setSelectedCategories([]);
-    }
+    setSelectedCategories(category ? [category] : []);
+
+    setKeyword(searchParams.get('title') || '');
+    setLocationQuery(searchParams.get('location') || '');
   }, [searchParams]);
 
   const toggleCategory = (opt) => {
@@ -58,10 +63,47 @@ export default function FindJobs() {
     );
   };
 
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    const params = new URLSearchParams(searchParams);
+
+    if (keyword.trim()) params.set('title', keyword.trim());
+    else params.delete('title');
+
+    if (locationQuery.trim()) params.set('location', locationQuery.trim());
+    else params.delete('location');
+
+    setSearchParams(params);
+  };
+
+  const handlePopularClick = (e, term) => {
+    e.preventDefault();
+    setKeyword(term);
+    const params = new URLSearchParams(searchParams);
+    params.set('title', term);
+    setSearchParams(params);
+  };
+
   const visibleJobs = useMemo(() => {
-    if (selectedCategories.length === 0) return jobs;
-    return jobs.filter((job) => selectedCategories.includes(job.category));
-  }, [selectedCategories]);
+    const titleQuery = (searchParams.get('title') || '').trim().toLowerCase();
+    const locQuery = (searchParams.get('location') || '').trim().toLowerCase();
+
+    return jobs.filter((job) => {
+      const matchesCategory =
+        selectedCategories.length === 0 || selectedCategories.includes(job.category);
+
+      const matchesTitle =
+        !titleQuery ||
+        job.title.toLowerCase().includes(titleQuery) ||
+        job.company.toLowerCase().includes(titleQuery) ||
+        job.tags.some((t) => t.toLowerCase().includes(titleQuery));
+
+      const matchesLocation =
+        !locQuery || job.location.toLowerCase().includes(locQuery);
+
+      return matchesCategory && matchesTitle && matchesLocation;
+    });
+  }, [selectedCategories, searchParams]);
 
   const handleApply = (jobTitle, index) => {
     if (!user) {
@@ -85,25 +127,38 @@ export default function FindJobs() {
             Find your next career at companies like HubSpot, Nike, and Dropbox
           </p>
 
-          <div className="hero__search">
+          <form className="hero__search" onSubmit={handleSearchSubmit} role="search">
             <div className="hero__search-field">
               <Search size={20} className="hero__search-icon" />
-              <input type="text" placeholder="Job title or keyword" />
+              <input
+                type="text"
+                placeholder="Job title or keyword"
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+                aria-label="Job title or keyword"
+              />
             </div>
             <div className="hero__search-divider" />
             <div className="hero__search-field">
               <MapPin size={20} className="hero__search-icon" />
-              <input type="text" placeholder="Florence, Italy" />
+              <input
+                type="text"
+                placeholder="Florence, Italy"
+                value={locationQuery}
+                onChange={(e) => setLocationQuery(e.target.value)}
+                aria-label="Location"
+              />
             </div>
-            <button className="btn btn-primary hero__search-btn">Search</button>
-          </div>
+            <button type="submit" className="btn btn-primary hero__search-btn">Search</button>
+          </form>
 
           <div className="hero__popular">
             <span>Popular :</span>
-            <a href="#">UI Designer</a>
-            <a href="#">UX Researcher</a>
-            <a href="#">Android</a>
-            <a href="#">Admin</a>
+            {popularSearches.map((term) => (
+              <a key={term} href="#" onClick={(e) => handlePopularClick(e, term)}>
+                {term}
+              </a>
+            ))}
           </div>
         </div>
       </section>
@@ -136,52 +191,56 @@ export default function FindJobs() {
             </select>
           </div>
 
-          <ul className="jobs-list">
-            {visibleJobs.map((job, i) => (
-              <li key={job.title} className="job-row">
-                <div className="job-row__logo" style={{ background: job.color }}>
-                  <job.icon size={22} color="#fff" />
-                </div>
-                <div className="job-row__body">
-                  <div className="job-row__top">
-                    <h3>{job.title}</h3>
-                    <Bookmark size={18} className="job-row__save" />
+          {visibleJobs.length === 0 ? (
+            <p className="job-row__meta">No jobs match your search. Try different keywords or clear filters.</p>
+          ) : (
+            <ul className="jobs-list">
+              {visibleJobs.map((job, i) => (
+                <li key={job.title} className="job-row">
+                  <div className="job-row__logo" style={{ background: job.color }}>
+                    <job.icon size={22} color="#fff" />
                   </div>
-                  <p className="job-row__meta">
-                    {job.company} &middot; {job.location}
-                  </p>
-                  <div className="job-row__tags">
-                    <span className="pill pill-green">{job.type}</span>
-                    {job.tags.map((t) => (
-                      <span key={t} className="pill pill-blue">{t}</span>
-                    ))}
-                  </div>
-                </div>
-                <div className="job-row__action">
-                  {appliedJobs[i] ? (
-                    <button className="btn job-row__apply" style={{ background: 'var(--color-accent-green)', color: '#fff', cursor: 'default' }} disabled>
-                      Applied
-                    </button>
-                  ) : (
-                    <button onClick={() => handleApply(job.title, i)} className="btn btn-primary job-row__apply">
-                      Apply
-                    </button>
-                  )}
-                  <div className="job-row__progress">
-                    <div className="job-row__progress-track">
-                      <div
-                        className="job-row__progress-fill"
-                        style={{ width: `${(job.applied / job.capacity) * 100}%` }}
-                      />
+                  <div className="job-row__body">
+                    <div className="job-row__top">
+                      <h3>{job.title}</h3>
+                      <Bookmark size={18} className="job-row__save" />
                     </div>
-                    <span className="job-row__progress-label">
-                      {job.applied} applied of {job.capacity} capacity
-                    </span>
+                    <p className="job-row__meta">
+                      {job.company} &middot; {job.location}
+                    </p>
+                    <div className="job-row__tags">
+                      <span className="pill pill-green">{job.type}</span>
+                      {job.tags.map((t) => (
+                        <span key={t} className="pill pill-blue">{t}</span>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+                  <div className="job-row__action">
+                    {appliedJobs[i] ? (
+                      <button className="btn job-row__apply" style={{ background: 'var(--color-accent-green)', color: '#fff', cursor: 'default' }} disabled>
+                        Applied
+                      </button>
+                    ) : (
+                      <button onClick={() => handleApply(job.title, i)} className="btn btn-primary job-row__apply">
+                        Apply
+                      </button>
+                    )}
+                    <div className="job-row__progress">
+                      <div className="job-row__progress-track">
+                        <div
+                          className="job-row__progress-fill"
+                          style={{ width: `${(job.applied / job.capacity) * 100}%` }}
+                        />
+                      </div>
+                      <span className="job-row__progress-label">
+                        {job.applied} applied of {job.capacity} capacity
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          )}
         </div>
       </section>
 
