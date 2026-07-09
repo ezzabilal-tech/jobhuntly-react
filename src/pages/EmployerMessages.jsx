@@ -184,7 +184,7 @@ export default function EmployerMessages() {
   const menuItems = [
     { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/employer/dashboard' },
     { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/employer/messages' },
-    { key: 'company-profile', label: 'Company Profile', icon: Building2, href: '/companies/1' },
+    { key: 'company-profile', label: 'Company Profile', icon: Building2, href: '/employer/company-profile' },
     { key: 'all-applicants', label: 'All Applicants', icon: Users, href: '#' },
     { key: 'job-listing', label: 'Job Listing', icon: Briefcase, href: '#' },
     { key: 'my-schedule', label: 'My Schedule', icon: Calendar, href: '#' },

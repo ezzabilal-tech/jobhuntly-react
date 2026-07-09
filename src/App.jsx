@@ -10,6 +10,7 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import EmployerDashboard from './pages/EmployerDashboard';
+import EmployerCompanyProfile from './pages/EmployerCompanyProfile';
 import Messages from './pages/Messages';
 import MyApplications from './pages/MyApplications';
 import Profile from './pages/Profile';
@@ -31,6 +32,7 @@ export default function App() {
           <Route path="/signup" element={<Signup />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/employer/dashboard" element={<EmployerDashboard />} />
+          <Route path="/employer/company-profile" element={<EmployerCompanyProfile />} />
           <Route path="/messages" element={<Messages />} />
           <Route path="/applications" element={<MyApplications />} />
           <Route path="/profile" element={<Profile />} />

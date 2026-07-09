@@ -419,7 +419,7 @@ export default function Messages() {
     ? [
         { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/employer/dashboard' },
         { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
-        { key: 'company-profile', label: 'Company Profile', icon: Building, href: '/profile' },
+        { key: 'company-profile', label: 'Company Profile', icon: Building, href: '/employer/company-profile' },
         { key: 'all-applicants', label: 'All Applicants', icon: Users, href: '#' },
         { key: 'job-listing', label: 'Job Listing', icon: FileText, href: '#' },
         { key: 'my-schedule', label: 'My Schedule', icon: Calendar, href: '#' },
