@@ -152,6 +152,50 @@
   text-overflow: ellipsis;
 }
 
+.sidebar-profile--clickable {
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background-color 0.15s ease;
+  position: relative;
+  padding-right: 12px;
+}
+
+.sidebar-profile--clickable:hover {
+  background-color: rgba(255, 101, 80, 0.06);
+}
+
+.sidebar-profile-logout-icon {
+  color: #a4a9b4;
+  flex-shrink: 0;
+  margin-left: auto;
+}
+
+.sidebar-profile--clickable:hover .sidebar-profile-logout-icon {
+  color: #ff6550;
+}
+
+.sidebar-logout-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: none;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  color: #ff6550;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.sidebar-logout-btn:hover {
+  background-color: rgba(255, 101, 80, 0.08);
+  border-color: #ff6550;
+}
+
 /* Main Content Area */
 .dashboard-main {
   flex: 1;

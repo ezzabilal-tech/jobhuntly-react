@@ -15,6 +15,7 @@ import {
   ArrowDownRight,
   ArrowRight,
   ChevronDown,
+  LogOut,
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import NotificationPanel from '../components/NotificationPanel';
@@ -174,12 +175,13 @@ export default function EmployerDashboard() {
         </nav>
 
         {/* Sidebar Profile Card */}
-        <div className="sidebar-profile" style={{ cursor: 'pointer' }} onClick={handleLogout} title="Click to Logout">
+        <div className="sidebar-profile sidebar-profile--clickable" onClick={handleLogout} title="Click to Logout">
           <img src={displayAvatar} alt={displayName} className="sidebar-profile-avatar" />
           <div className="sidebar-profile-info">
             <span className="sidebar-profile-name">{displayName}</span>
             <span className="sidebar-profile-email" title={displayEmail}>{displayEmail}</span>
           </div>
+          <LogOut size={16} className="sidebar-profile-logout-icon" />
         </div>
       </aside>
 
