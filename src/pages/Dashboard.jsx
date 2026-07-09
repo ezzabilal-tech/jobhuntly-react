@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Calendar,
@@ -21,14 +21,9 @@ import './Dashboard.css';
 
 export default function Dashboard() {
   const { user, logout } = useAuth();
+  const dashboardHref = user?.role === 'company' ? '/employer/dashboard' : '/dashboard';
   const navigate = useNavigate();
   const [activeMenu, setActiveMenu] = useState('dashboard');
-
-  useEffect(() => {
-    if (user?.role === 'company') {
-      navigate('/employer/dashboard', { replace: true });
-    }
-  }, [user, navigate]);
 
   const handleLogout = () => {
     logout();
@@ -41,7 +36,7 @@ export default function Dashboard() {
   const displayAvatar = user?.avatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80';
 
   const menuItems = [
-    { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+    { key: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: dashboardHref },
     { key: 'messages', label: 'Messages', icon: MessageSquare, badge: 1, href: '/messages' },
     { key: 'applications', label: 'My Applications', icon: FileText, href: '/applications' },
     { key: 'find-jobs', label: 'Find Jobs', icon: Search, href: '/jobs' },
